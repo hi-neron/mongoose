@@ -9,7 +9,6 @@ server.listen(port)
 server.on('listening', () => {
   console.log(`server listening on port ${port}`)
   // delete next line to deploy
-  server.close()
 })
 
 server.on('error', onError )
@@ -37,3 +36,5 @@ function onError(error) {
       throw error;
   }
 }
+
+module.exports = server
