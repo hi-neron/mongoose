@@ -20,7 +20,7 @@ router.get('/:id?', (req, res, next) => {
 // Return one item or a search of tags
 router.get('/one/:id', (req, res, next) => {
   let params = req.params.id
-  dbPublic.oneItem({'title': params}, (err, project) => {
+  dbPublic.oneItem({'shortTitle': params}, (err, project) => {
     if (err) return res.json(err)
     if (project) {
       res.json(project)

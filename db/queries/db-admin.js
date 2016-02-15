@@ -3,6 +3,7 @@
 const Db = require('../db-main.js')
 const publicDb = require('./db-public.js')
 const _ = require('underscore')
+const errors = require('../../lib/error.js')
 
 function arraysPush (method, oldData, newData) {
   let array = []
@@ -14,15 +15,47 @@ function arraysPush (method, oldData, newData) {
   return _.uniq(array)
 }
 
+function constructTemplate (params) {
+  let newTitle = null
+  if (params.newTitle) {
+    newTitle = params.newTitle
+  }
+
+  let template = {
+    'shortTitle': newTitle || params.shortTitle,
+    'released': params.released || 'not',
+    'author': params.author,
+    'images': params.image || [],
+    'social': params.social || [],
+    'ESP': {
+      'shortTitle': params.shortTitle,
+      'title': params.title,
+      'entrance': params.entrance,
+      'content': params.content,
+      'tags': params.tags || []
+    },
+    'ENG': {
+      'shortTitle': params.en_shortTitle || params.shortTitle,
+      'title': params.en_title || params.title,
+      'entrance': params.en_entrance || params.entrance,
+      'content': params.en_content || params.content,
+      'tags': params.en_tags || params.tags || []
+    }
+  }
+  return template
+}
+
 function createPost (params, callback) {
-  publicDb.oneItem({'title': params.title}, (err, res) => {
-    if (err) return callback(err, {'error': err.body})
-    if (res) return callback(err, {'error': 'Item already exists'})
-    let newData = new Db(params)
+  publicDb.oneItem({'shortTitle': params.shortTitle}, (err, res) => { // Search item in DB
+    if (err) return callback(errors.byCode('99'), null) // Unknow error
+    if (res) return callback(errors.byCode('01'), null) // Already item exists in DB
+    // Template
+    let template = constructTemplate(params)
+    let newData = new Db(template)
     newData.save((err) => {
-      if (err) return callback(err, res)
-      console.log(params.title + ' Saved!')
-      callback(err, params)
+      if (err) return callback(errors.byCode('02'), null)
+      console.log(params.shortTitle + ' Saved!')
+      callback(null, params)
     })
   })
 }
@@ -31,17 +64,18 @@ function updatePost (params, callback) {
   let method = params.method
   delete params.method
 
-  publicDb.oneItem({'title': params.title}, (err, project) => {
-    if (err) return callback(err, {'error': err})
-    if (!project) return callback(err, {'error': 'item does not exists'})
+  publicDb.oneItem({'shortTitle': params.shortTitle}, (err, project) => {
+    if (err) return callback(errors.byCode('99', err.message), null)
+    if (!project) return callback(errors.byCode('00'), null)
+
+    params = constructTemplate(params)
 
     for (let item in params) {
       if (typeof params[item] !== 'object') {
-        if (project[item] || item === 'newTitle') {
-          if (item === 'newTitle') project.title = params.newTitle
+        if (project[item]) {
           project[item] = params[item]
         } else {
-          return callback({'error': `${item} invalid value`})
+          return callback(errors.byCode('11'), null)
         }
       } else {
         if (Array.isArray(params[item])) {
@@ -55,27 +89,28 @@ function updatePost (params, callback) {
                 project[item][sub] = params[item][sub]
               }
             } else {
-              return callback({'error': `${sub} in ${item} was an invalid value`})
+              return callback(errors.byCode('11'), null)
             }
           }
         }
       }
     }
+
     project.save()
-    callback(err, project)
+    callback(null, project)
   })
 }
 
 function deletePost (params, callback) {
-  publicDb.oneItem({'title': params}, (err, project) => {
-    if (err) return callback(err, {'err': err})
+  publicDb.oneItem({'shortTitle': params}, (err, project) => {
+    if (err) return callback(errors.byCode('99', err.message), null)
     if (project) {
-      Db.remove({'title': project.title}, (err) => {
-        if (err) return callback(err, {'err': err})
-        return callback(err, params)
+      Db.remove({'shortTitle': project.shortTitle}, (err) => {
+        if (err) return callback(errors.byCode('99', err.message), null)
+        return callback(null, params)
       })
     } else {
-      callback({'error': `${params} not found`}, {'ok': 'ok'})
+      callback(errors.byCode('11'), null)
     }
   })
 }

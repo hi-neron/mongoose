@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard",
     "coverage": "istanbul cover tape -- tests/*-test.js",
-    "test": "npm run lint && tape tests/*-test.js | tap-spec",
+    "test": "NODE_PATH=. npm run lint && tape tests/*-test.js | tap-spec",
     "start": "node bin/www"
   },
   "repository": {
@@ -28,6 +28,8 @@
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
+    "formidable": "^1.0.17",
+    "fs-extra": "^0.26.5",
     "mongoose": "^4.3.7",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",

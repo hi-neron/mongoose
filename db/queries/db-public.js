@@ -7,7 +7,7 @@ function all (params, callback) {
   if (!params) {
     params = {}
   } else {
-    params = {'title': {'$regex': params, '$options': 'i'}}
+    params = {'shortTitle': {'$regex': params, '$options': 'i'}}
   }
   Db.find(params, (err, projects) => {
     return callback(err, projects)

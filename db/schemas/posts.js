@@ -1,14 +1,15 @@
 'use strict'
-const author = 'Hi-neron'
-const protoString = {type: String, required: true, unique: true, default: 'empty'}
+const autor = 'Hi-neron'
+const protoString = {type: String, required: true, unique: true}
+const normalString = {type: String}
 
 module.exports = {
-  title: protoString,
-  released: {type: Boolean, default: false, required: true, unique: true},
-  autor: {type: String, default: author, required: true, unique: true},
+  shortTitle: protoString,
+  released: {type: Boolean, default: 'not', required: true, unique: true},
+  author: {type: String, default: autor, unique: true},
   images: [{
-    name: protoString,
-    src: protoString
+    name: normalString,
+    src: normalString
   }],
   date: {type: Date, default: Date.now, required: true},
   social: [{
@@ -23,10 +24,10 @@ module.exports = {
     tags: [String]
   },
   ENG: {
-    shortTitle: protoString,
-    title: protoString,
-    entrance: protoString,
-    content: protoString,
+    shortTitle: normalString,
+    title: normalString,
+    entrance: normalString,
+    content: normalString,
     tags: [String]
   }
 }
