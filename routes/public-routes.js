@@ -3,6 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const dbPublic = require('../db/queries/db-public.js')
+const errors = require('../lib/error.js')
 
 // Return all items
 router.get('/:id?', (req, res, next) => {
@@ -12,7 +13,7 @@ router.get('/:id?', (req, res, next) => {
     if (projects.length !== 0) {
       res.json(projects)
     } else {
-      res.json({'error': 'There are not items to show'})
+      res.json(errors.byCode('404'))
     }
   })
 })
@@ -25,7 +26,7 @@ router.get('/one/:id', (req, res, next) => {
     if (project) {
       res.json(project)
     } else {
-      res.json({'error': 404})
+      res.json(errors.byCode('404'))
     }
     // res.end()
   })

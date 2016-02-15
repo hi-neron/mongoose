@@ -307,14 +307,13 @@ test('Should return an error when try update an item that not exists PUT:/admin/
 
 test('Should delete an item', (t) => {
   request(app)
-    .delete('/admin/Dilian Maria')
+    .delete('/admin/Memin')
     .expect(200)
     .end((err, res) => {
       if (err) console.log(err)
       console.log(res.body)
-      DbPost.findOne({'shortTitle': 'Dilian Maria'}, (err, project) => {
+      DbPost.findOne({'shortTitle': 'Mema'}, (err, project) => {
         if (err) console.log(err)
-        console.log(project)
         t.equal(project, null, 'Return an null object')
         t.end()
       })
@@ -327,7 +326,7 @@ test('Should return an error when try delete an item that not exists', (t) => {
     .expect(200)
     .end((err, res) => {
       if (err) console.log(err)
-      t.ok(res.body.err, 'Response should be an error')
+      t.equal(res.body.errCode, '11', 'File not found')
       t.end()
     })
 })

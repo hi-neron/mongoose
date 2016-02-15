@@ -4,6 +4,7 @@ const Db = require('../db-main.js')
 const publicDb = require('./db-public.js')
 const _ = require('underscore')
 const errors = require('../../lib/error.js')
+const fs = require('fs-extra')
 
 function arraysPush (method, oldData, newData) {
   let array = []
@@ -25,7 +26,7 @@ function constructTemplate (params) {
     'shortTitle': newTitle || params.shortTitle,
     'released': params.released || 'not',
     'author': params.author,
-    'images': params.image || [],
+    'images': params.images || [],
     'social': params.social || [],
     'ESP': {
       'shortTitle': params.shortTitle,
@@ -45,6 +46,15 @@ function constructTemplate (params) {
   return template
 }
 
+function imgBehavior (action, images, callback) {
+  images.forEach((image) => {
+    image[action]((err) => {
+      if (err) return callback(errors.byCode('22'))
+    })
+  })
+  callback(null)
+}
+
 function createPost (params, callback) {
   publicDb.oneItem({'shortTitle': params.shortTitle}, (err, res) => { // Search item in DB
     if (err) return callback(errors.byCode('99'), null) // Unknow error
@@ -55,6 +65,10 @@ function createPost (params, callback) {
     newData.save((err) => {
       if (err) return callback(errors.byCode('02'), null)
       console.log(params.shortTitle + ' Saved!')
+      imgBehavior('save', template.images, (err) => {
+        if (err) return callback(err)
+      })
+
       callback(null, params)
     })
   })
@@ -104,7 +118,13 @@ function updatePost (params, callback) {
 function deletePost (params, callback) {
   publicDb.oneItem({'shortTitle': params}, (err, project) => {
     if (err) return callback(errors.byCode('99', err.message), null)
+
     if (project) {
+      fs.remove(project.images[0].path, (err) => {
+        if (err) return callback(errors.byCode('11'), null)
+        console.log(`${project.shortTitle} image dir was delete`)
+      })
+
       Db.remove({'shortTitle': project.shortTitle}, (err) => {
         if (err) return callback(errors.byCode('99', err.message), null)
         return callback(null, params)

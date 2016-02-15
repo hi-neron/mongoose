@@ -9,7 +9,8 @@ module.exports = {
   author: {type: String, default: autor, unique: true},
   images: [{
     name: normalString,
-    src: normalString
+    src: normalString,
+    path: normalString
   }],
   date: {type: Date, default: Date.now, required: true},
   social: [{

@@ -32,17 +32,7 @@ router.route('/:opt?')
       }
 
       dbAdmin.createPost(fields, (err, data) => {
-        if (err) {
-          // elimina los archivos
-          return res.json(err)
-        }
-
-        for (let i = 0; i < data.images.length; i++) {
-          data.images[i].save((err) => {
-            if (err) return res.json(err)
-          })
-        }
-
+        if (err) return res.json(err)
         res.json(data)
       })
     })
@@ -72,11 +62,9 @@ router.route('/:opt?')
 
   .delete((req, res, next) => {
     let path = req.params.opt
-    console.log(path)
     dbAdmin.deletePost(path, (err, params) => {
-      if (err) return res.json({'err': err})
+      if (err) return res.json(err)
       res.json({'shortTitle': params, 'deleted': 'ok'})
-      res.end()
     })
   })
 
