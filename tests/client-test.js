@@ -5,6 +5,7 @@ const app = require('../app.js')
 const DbPost = require('../db/db-main.js')
 const mongoose = require('mongoose')
 const errors = require('../lib/error.js')
+const start = require('../bin/www')
 
 var object = {
   'shortTitle': 'Dilian Maria',
@@ -125,14 +126,15 @@ test("Should return error when it haven't found anything from /project/:id", (t)
   .expect(200)
   .end((err, res) => {
     if (err) throw err
-    t.equal(res.body.error, 'There are not items to show', 'Show error')
+    console.log(res.body)
+    t.equal(res.body.errCode, '404', 'Show error')
     t.end()
   })
 })
 
 // ----------    PRIVATE CRUD     ------------
 
-// test('Should be authenticate', (t) => {})
+// test.skip('Should be authenticate', (t) => {})
 
 // --------- POST ---------------
 
@@ -222,7 +224,6 @@ test('Should return error when new post does not have img POST:/admin/:name', (t
     .field('content', object.content)
     .field('entrance', object['ESP'].entrance)
     .field('title', object['ESP'].title)
-    // .attach('image', '/Users/mutatipo/Ejercicios/2016/mongoose/tests/test.skip.jpg')
     .end((err, res) => {
       t.equal(res.body.errMsg, errors.byCode('15').errMsg, `should return - error ${errors.byCode('15').errMsg} -`)
       t.equal(res.body.errCode, '15', 'Should return an error (15) because it does not have img')
@@ -233,7 +234,7 @@ test('Should return error when new post does not have img POST:/admin/:name', (t
 
 // --------- PUT ---------------
 
-test('Should update an item PUT:/admin/:name', (t) => {
+test('Should update an item ADD method PUT:/admin/:name', (t) => {
   var sendData = {
     'shortTitle': 'Mema',
     'newTitle': 'Memin',
@@ -274,6 +275,60 @@ test('Should update an item PUT:/admin/:name', (t) => {
     .field('entrance', sendData['ESP'].entrance)
     .field('content', sendData['ESP'].content)
     .field('title', sendData['ESP'].title)
+    .attach('image', '/Users/mutatipo/Ejercicios/2016/mongoose/tests/test3.jpg')
+    .end((err, res) => {
+      if (err) console.log(err)
+      t.ok(typeof res.body, 'object', 'Should be an object')
+      DbPost.findOne({'shortTitle': sendData.newTitle}, (err, project) => {
+        if (err) console.log(err)
+        t.equal(object['ESP'].content, project['ESP'].content, 'Item in DB should have to change')
+        t.end()
+      })
+    })
+})
+
+test('Should update an item OVERWRITE method PUT:/admin/:name', (t) => {
+  var sendData = {
+    'shortTitle': 'Mema',
+    'newTitle': 'Memin',
+    'ESP': {
+      'shortTitle': 'Cambio mundo',
+      'title': 'cambio esto rambien',
+      'entrance': 'Lorem ipsum Adipisicing officia dolore esse dolor ad nostrud pariatur in sed labore.',
+      'content': 'Lorem ipsum Tempor reprehenderit aliquip sunt aliquip do in proident in cupidatat labore et in in in minim consectetur ad dolor aliqua elit dolore irure nulla Ut magna reprehenderit.',
+      'tags': ['meta', 'casa', 'life']
+    }
+  }
+
+  var object = {
+    'shortTitle': 'Mema',
+    'ESP': {
+      'shortTitle': 'Mundo',
+      'title': 'LAses',
+      'entrance': 'Lorem ipsum Adipisicing officia dolore esse dolor ad nostrud pariatur in sed labore.',
+      'content': 'Lorem ipsum Tempor reprehenderit aliquip sunt aliquip do in proident in cupidatat labore et in in in minim consectetur ad dolor aliqua elit dolore irure nulla Ut magna reprehenderit.',
+      'tags': ['meta', 'casa', 'life']
+    },
+    'ENG': {
+      'shortTitle': 'Eng Mundo',
+      'title': 'eng',
+      'entrance': 'Lorem ipsum Adipisicing officia dolore esse dolor ad nostrud pariatur in sed labore.',
+      'content': 'Lorem ipsum Tempor reprehenderit aliquip sunt aliquip do in proident in cupidatat labore et in in in minim consectetur ad dolor aliqua elit dolore irure nulla Ut magna reprehenderit.',
+      'tags': ['meta', 'casa', 'life']
+    }
+  }
+
+  let post = new DbPost(object)
+  post.save()
+
+  request(app)
+    .put('/admin/overwrite')
+    .field('shortTitle', sendData.shortTitle)
+    .field('newTitle', sendData.newTitle)
+    .field('entrance', sendData['ESP'].entrance)
+    .field('content', sendData['ESP'].content)
+    .field('title', sendData['ESP'].title)
+    .attach('image', '/Users/mutatipo/Ejercicios/2016/mongoose/tests/test3.jpg')
     .end((err, res) => {
       if (err) console.log(err)
       t.ok(typeof res.body, 'object', 'Should be an object')
@@ -312,7 +367,7 @@ test('Should delete an item', (t) => {
     .end((err, res) => {
       if (err) console.log(err)
       console.log(res.body)
-      DbPost.findOne({'shortTitle': 'Mema'}, (err, project) => {
+      DbPost.findOne({'shortTitle': 'Memin'}, (err, project) => {
         if (err) console.log(err)
         t.equal(project, null, 'Return an null object')
         t.end()
@@ -340,7 +395,9 @@ test('DB had end with nothing', (t) => {
     .get('/project')
     .end((err, res) => {
       if (err) console.log(err)
-      t.equal(res.body.error, 'There are not items to show', 'Should that items not found')
+      t.equal(res.body.errCode, '404', 'Should that items not found')
       t.end()
+      start.close()
+      mongoose.connection.close()
     })
 })

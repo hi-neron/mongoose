@@ -8,9 +8,6 @@ const path = require('path')
 // Errors handler
 const errors = require('./lib/error.js')
 
-// Image handler
-const files = require('./lib/files.js')
-
 // AUTH
 // const passport = require('passport')
 // const twitter = require('passport-twitter')
@@ -25,7 +22,6 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use('/project', projects)
 app.use('/admin', admin)
-app.use('/files', files)
 app.use(express.static(path.join(__dirname + '/public')))
 
 app.use(errors.path)

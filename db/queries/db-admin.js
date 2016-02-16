@@ -85,12 +85,9 @@ function updatePost (params, callback) {
     params = constructTemplate(params)
 
     for (let item in params) {
+      console.log(item)
       if (typeof params[item] !== 'object') {
-        if (project[item]) {
-          project[item] = params[item]
-        } else {
-          return callback(errors.byCode('11'), null)
-        }
+        project[item] = params[item]
       } else {
         if (Array.isArray(params[item])) {
           project[item] = arraysPush(method, project[item], params[item])
@@ -109,6 +106,10 @@ function updatePost (params, callback) {
         }
       }
     }
+    // it keep images in public folder
+    imgBehavior('save', params.images, (err) => {
+      if (err) return callback(err)
+    })
 
     project.save()
     callback(null, project)

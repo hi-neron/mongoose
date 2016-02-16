@@ -41,13 +41,25 @@ test.skip('Should serve public assets', (t) => {
     })
 })
 
-test.skip('Should show error 404 when the path do not exists', (t) => {
+test('Should be an error when project does not exists', (t) => {
+  request(app)
+    .get('/project/one/pepe')
+    .end((err, res) => {
+      if (err) throw err
+      console.log(res.body)
+      t.equal(res.body.errCode, '404', 'should be an error')
+      t.end()
+    })
+})
+
+test('Should show error 404 when the path do not exists', (t) => {
   request(app)
     .get('/notExist')
     .end((err, res) => {
-      if (err) throw err
-      t.equal(res.body, '{"status":404}', 'should retrieve an error 404')
-      t.equal(typeof res.body, 'string', 'response should be an JSON stringify')
+      if (err) console.log(err)
+      console.log(res.body)
+      t.equal(res.body.errCode, '404', 'should retrieve an error 404')
+      // t.equal(typeof res.body, 'string', 'response should be an JSON stringify')
       t.end()
     })
 })

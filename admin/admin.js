@@ -46,7 +46,12 @@ router.route('/:opt?')
 
     form.parse(req, (err, fields, files) => {
       if (err) return res.json(err)
-      if (!files) return res.json()
+      if (files) {
+        fields.images = []
+        for (let item in files) {
+          fields.images.push(new Image(fields.shortTitle, files[item]))
+        }
+      }
 
       if (opt === 'add' || opt === 'overwrite') {
         fields.method = opt
