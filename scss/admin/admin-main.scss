@@ -1,0 +1,42 @@
+@import url(https://fonts.googleapis.com/css?family=Asap:400,700);
+
+@font-face {
+  font-family: 'Square';
+  src: url('../fonts/geo.ttf');
+}
+
+@font-face {
+  font-family: 'Silk';
+  src: url('../fonts/slkscre.ttf');
+}
+
+// variables
+$yellow : #FFF96E;
+$darkGray : #808080;
+$lightGray : #9A9A9A;
+$veryLightGray : #CCCCCC;
+
+// Mixins
+@mixin transition($time){
+  -webkit-transition: all $time ease-in-out;
+   -moz-transition: all $time ease-in-out;
+    -ms-transition: all $time ease-in-out;
+        transition: all $time ease-in-out;
+}
+
+@mixin radius($x){
+-webkit-border-radius: $x;
+   -moz-border-radius: $x;
+    -ms-border-radius: $x;
+        border-radius: $x;
+}
+
+@import 'reset';
+@import 'aside';
+@import 'contents';
+@import 'footer';
+
+
+body {
+  background-color: #F0F0F0;
+}

@@ -1,16 +1,18 @@
 'use strict'
 const autor = 'Hi-neron'
+const metaString = {type: String, required: true}
 const protoString = {type: String, required: true, unique: true}
 const normalString = {type: String}
 
 module.exports = {
   shortTitle: protoString,
-  released: {type: Boolean, default: 'not', required: true, unique: true},
-  author: {type: String, default: autor, unique: true},
+  released: {type: Boolean, default: false, required: true},
+  author: {type: String, default: autor},
   images: [{
     name: normalString,
     src: normalString,
-    path: normalString
+    path: normalString,
+    url: normalString
   }],
   date: {type: Date, default: Date.now, required: true},
   social: [{
@@ -19,9 +21,9 @@ module.exports = {
   }],
   ESP: {
     shortTitle: protoString,
-    title: protoString,
-    entrance: protoString,
-    content: protoString,
+    title: metaString,
+    entrance: metaString,
+    content: metaString,
     tags: [String]
   },
   ENG: {

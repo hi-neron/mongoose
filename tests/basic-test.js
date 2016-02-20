@@ -41,7 +41,7 @@ test.skip('Should serve public assets', (t) => {
     })
 })
 
-test('Should be an error when project does not exists', (t) => {
+test.skip('Should be an error when project does not exists', (t) => {
   request(app)
     .get('/project/one/pepe')
     .end((err, res) => {
@@ -52,7 +52,7 @@ test('Should be an error when project does not exists', (t) => {
     })
 })
 
-test('Should show error 404 when the path do not exists', (t) => {
+test.skip('Should show error 404 when the path do not exists', (t) => {
   request(app)
     .get('/notExist')
     .end((err, res) => {
@@ -63,3 +63,5 @@ test('Should show error 404 when the path do not exists', (t) => {
       t.end()
     })
 })
+
+start.close()

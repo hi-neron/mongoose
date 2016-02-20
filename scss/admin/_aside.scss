@@ -1,0 +1,95 @@
+
+aside {
+  width: 100%;
+  color: $darkGray;
+
+  .barcontainer {
+    height: 150px;
+    padding: 30px 0 10px 0;
+
+    .barBody{
+      font-size: 24pt;
+      margin: 0 auto;
+      height: 100%;
+      width: 400px;
+      text-align: center;
+      font-family: 'Square';
+      line-height: 0.65em;
+      text-transform: uppercase;
+
+      span {
+        font-size: 12pt;
+        color: #9A9A9A;
+        font-family: 'Asap'
+      }
+
+      .upper {
+        display: inline-block;
+        vertical-align: 25%;
+        font-size: 0.5em;
+        height: 70px;
+        border: 0px solid $yellow;
+        padding: 3px;
+        @include transition(0.1s);
+
+        &:hover {
+          cursor: pointer;
+          border: 4px solid $yellow;
+
+          &:after {
+            background: url(../images/calacaHover.png) 0px 0px no-repeat;
+            background-size: 70%;
+          }
+        }
+
+        &:after {
+          content: " ";
+          width: 40px;
+          height: 29px;
+          background-color: red;
+          display: inline-block;
+          position: absolute;
+          margin-top: 24px;
+          margin-left: -33px;
+          background: url(../images/calaca.png) 0px 0px no-repeat;
+          background-size: 70%;
+        }
+      }
+    }
+
+    .search {
+      width: 50%;
+      min-width: 400px;
+      margin: 0 auto;
+      border-top: 2px solid $lightGray;
+      height: 0px;
+    }
+
+    .opener {
+      margin: 0 auto;
+      background-color: $lightGray;
+      width: 30px;
+      height: 25px;
+      border-radius: 0px 0px 3px 3px;
+      text-align: center;
+      color: $yellow;
+      margin-bottom: 30px;
+      @include transition(0.2s);
+
+      &:hover {
+        background-color: $yellow;
+        color: $darkGray;
+        cursor: pointer;
+      }
+
+      .icon {
+        margin-top: 4px;
+        font-size: 0.9em;
+      }
+    }
+  }
+  .separator {
+    height: 60px;
+  }
+
+}

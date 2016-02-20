@@ -1,0 +1,14 @@
+footer {
+  font-family: 'Silk';
+  font-size: 0.8em;
+  text-align: center;
+  color: $veryLightGray;
+  height: 150px;
+  line-height: 45pt;
+  .container{
+    width: 60px;
+    height: 150px;
+    background-color: white;
+    @include radius(4px);
+  }
+}

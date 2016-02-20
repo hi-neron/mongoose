@@ -18,6 +18,10 @@ const admin = require('./admin/admin.js')
 // Public rutes API
 const projects = require('./routes/public-routes.js')
 
+// View Engine
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use('/project', projects)

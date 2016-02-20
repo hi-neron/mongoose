@@ -2,6 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const dbAdmin = require('../db/queries/db-admin.js')
+const dbPublic = require('../db/queries/db-public.js')
 const errors = require('../lib/error.js')
 const _ = require('underscore')
 const Image = require('../lib/image.js')
@@ -16,8 +17,26 @@ router.get('/login', (req, res, next) => {
 
 router.route('/:opt?')
   .all((req, res, next) => {
+    // Evaluate if it is autorized
+    // if not > login
+    // if true > render index.ejs
     console.log('it has not been identified, but while this module it is not ready you can continue')
+
     next()
+  })
+
+  .get((req, res, next) => {
+    const ALIAS = ['Caramelo', 'Cocolin', 'Mi sol', 'Cantinflas']
+    let project = req.params.opt
+    let alias = Math.floor(Math.random() * ALIAS.length)
+    dbPublic.all(project, (err, projects) => {
+      if (err) return res.json(errors.byCode('99'))
+      res.render('main', {
+        'name': 'Jose Luis',
+        'alias': ALIAS[alias],
+        'projects': projects
+      })
+    })
   })
 
   .post((req, res, next) => {

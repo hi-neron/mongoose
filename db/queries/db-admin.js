@@ -24,7 +24,7 @@ function constructTemplate (params) {
 
   let template = {
     'shortTitle': newTitle || params.shortTitle,
-    'released': params.released || 'not',
+    'released': params.released || false,
     'author': params.author,
     'images': params.images || [],
     'social': params.social || [],
@@ -63,7 +63,7 @@ function createPost (params, callback) {
     let template = constructTemplate(params)
     let newData = new Db(template)
     newData.save((err) => {
-      if (err) return callback(errors.byCode('02'), null)
+      if (err) return callback(errors.byCode('99', err.errmsg), null)
       console.log(params.shortTitle + ' Saved!')
       imgBehavior('save', template.images, (err) => {
         if (err) return callback(err)

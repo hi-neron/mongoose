@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row row-centered">
+    <% for (var x = 0; x < projects.length; x++) { %>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-max col-centered">
+        <div class="project">
+          <div class="image">
+            <div class="over">
+              <div class="actions">
+                <div class="edit">
+                  <i class="fa fa-pencil"></i>
+                </div>
+                <div class="delete">
+                  <i class="fa fa-bomb"></i>
+                </div>
+              </div>
+            </div>
+            <img src="/<%= projects[x].images[0].url %>" alt="">
+            <%= projects[x].images[0].url %>
+          </div>
+
+          <div class="info">
+            <% if (projects[x].released == true) { %>
+              <div class="publicated yellow-p">
+                <i class="fa fa-eye"></i>
+              </div>
+            <% } else { %>
+              <div class="publicated pink-p">
+                <i class="fa fa-eye-slash"></i>
+              </div>
+            <% } %>
+            <div class="bodyInfo">
+              <span class="shortTitle">
+                <%= projects[x].shortTitle %> <br>
+              </span>
+              <span class="date">
+                <%= projects[x].date.toLocaleDateString() %>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-max col-centered">
+      <div class="new">
+        <div class="icon"></div>
+        <div class="add">add</div>
+      </div>
+    </div>
+  </div>
+</div>
