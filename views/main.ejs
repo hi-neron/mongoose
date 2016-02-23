@@ -5,12 +5,13 @@
   </head>
   <body>
     <% include ./partials/bar %>
-    <section class="grid">
+    <% include ./partials/post_form %>
+    <section class="grid" id="mainContainer">
       <% include ./partials/contents %>
     </section>
     <footer>
       <% include ./partials/footer %>
     </footer>
-    <% include ./partials/scripts %>
+    <script src="/js/admin/bundle.js"></script>
   </body>
 </html>

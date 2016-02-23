@@ -52,6 +52,150 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+input {
+  background-color: transparent;
+  border-radius: 0px;
+  box-shadow: none;
+  border-style: hidden; }
+
+input[type=text]:focus, input[type=date]:focus, input[type=file]:focus {
+  outline: transparent;
+  border-bottom: 2px solid #FF7676 !important; }
+
+textarea, button {
+  resize: vertical; }
+  textarea:focus, button:focus {
+    outline: transparent;
+    border: 2px solid #FF7676 !important; }
+
+.action_text {
+  font-family: 'Square';
+  color: #FF7676;
+  font-size: 3em;
+  padding-bottom: 25px; }
+
+.form-label {
+  font-family: 'Silk';
+  color: #6F6F6F; }
+  .form-label span {
+    color: #FF7676;
+    display: inline-block; }
+
+.my_submit {
+  display: block;
+  margin: 0 auto;
+  width: 60px;
+  height: 60px;
+  color: #FFF776;
+  background: #CCCCCC;
+  position: relative;
+  border-style: none;
+  font-size: 1.4em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px; }
+  .my_submit:hover {
+    background-color: #FFF776; }
+    .my_submit:hover i {
+      color: #CCCCCC; }
+
+.end-form {
+  margin-bottom: 80px; }
+
+.camp_post {
+  padding: 25px;
+  background-color: #FAFAFA;
+  border: 3px solid #CCCCCC;
+  width: 100%;
+  font-family: 'Asap';
+  margin-bottom: 50px;
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px; }
+  .camp_post .camp_title {
+    position: absolute;
+    top: -10px;
+    font-size: 1.2em;
+    font-family: 'Silk';
+    color: #6F6F6F;
+    background-color: #FAFAFA;
+    z-index: 0;
+    padding: 0 5px 0 7px; }
+    .camp_post .camp_title:before {
+      content: "";
+      z-index: -1;
+      margin-left: -7px;
+      top: -3px;
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background-color: #F0F0F0; }
+  .camp_post textarea[name="content"] {
+    width: 100%;
+    height: 150px;
+    border: 2px solid #CCCCCC;
+    color: #919191;
+    padding: 5px 5px 15px 5px;
+    line-height: 1.3em;
+    max-height: 500px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px; }
+  .camp_post textarea[name="entrance"] {
+    width: 100%;
+    height: 64px;
+    border: 2px solid #CCCCCC;
+    color: #919191;
+    padding: 5px 5px 15px 5px;
+    line-height: 1.3em;
+    resize: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px; }
+  .camp_post input[type=text] {
+    width: 100%;
+    height: 32px;
+    border-bottom: 2px solid #CCCCCC;
+    color: #919191;
+    padding: 0px 10px 0px 10px; }
+  .camp_post input[name=images] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .camp_post label[for=images] {
+    color: #FF7676;
+    border: 2px solid #FF7676;
+    padding: 6px 22px 6px 22px;
+    width: 100%;
+    text-align: center;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px; }
+    .camp_post label[for=images]:hover {
+      cursor: pointer;
+      background-color: #FF7676;
+      color: white; }
+  .camp_post input[type=date] {
+    width: 100%;
+    height: 32px;
+    border-bottom: 2px solid #CCCCCC;
+    color: #919191;
+    padding: 0px 10px 0px 10px;
+    font-family: 'Asap'; }
+
 aside {
   width: 100%;
   color: #808080; }
@@ -76,7 +220,7 @@ aside {
         vertical-align: 25%;
         font-size: 0.5em;
         height: 70px;
-        border: 0px solid #FFF96E;
+        border: 0px solid #FFF776;
         padding: 3px;
         -webkit-transition: all 0.1s ease-in-out;
         -moz-transition: all 0.1s ease-in-out;
@@ -84,7 +228,7 @@ aside {
         transition: all 0.1s ease-in-out; }
         aside .barcontainer .barBody .upper:hover {
           cursor: pointer;
-          border: 4px solid #FFF96E; }
+          border: 4px solid #FFF776; }
           aside .barcontainer .barBody .upper:hover:after {
             background: url(../images/calacaHover.png) 0px 0px no-repeat;
             background-size: 70%; }
@@ -112,14 +256,14 @@ aside {
       height: 25px;
       border-radius: 0px 0px 3px 3px;
       text-align: center;
-      color: #FFF96E;
+      color: #FFF776;
       margin-bottom: 30px;
       -webkit-transition: all 0.2s ease-in-out;
       -moz-transition: all 0.2s ease-in-out;
       -ms-transition: all 0.2s ease-in-out;
       transition: all 0.2s ease-in-out; }
       aside .barcontainer .opener:hover {
-        background-color: #FFF96E;
+        background-color: #FFF776;
         color: #808080;
         cursor: pointer; }
       aside .barcontainer .opener .icon {
@@ -184,7 +328,7 @@ aside {
       padding: 0 0 5px 0;
       overflow: hidden;
       position: relative;
-      background-color: #2A2A2A; }
+      background-color: #343434; }
       .grid .container .row .project .image .over {
         visibility: hidden; }
         .grid .container .row .project .image .over .actions {
@@ -248,7 +392,7 @@ aside {
           cursor: pointer; }
       .grid .container .row .project .info .bodyInfo {
         float: left;
-        width: 85%;
+        width: 83%;
         display: inline-block;
         padding-left: 10px; }
         .grid .container .row .project .info .bodyInfo .shortTitle {
@@ -258,16 +402,27 @@ aside {
           font-size: 0.7em;
           letter-spacing: 0.2em; }
   .grid .container .row .new {
-    background-color: #FFF96E;
+    background-color: #9A9A9A;
     font-family: 'Silk';
-    color: #CCCCCC;
+    color: #FFF96E;
     font-size: 1.3em;
     position: relative;
     padding-top: 100px;
-    -webkit-box-shadow: 0px 0px 4px rgba(255, 249, 110, 0.2);
-    -moz-box-shadow: 0px 0px 4px rgba(255, 249, 110, 0.2);
-    -ms-box-shadow: 0px 0px 4px rgba(255, 249, 110, 0.2);
-    box-shadow: 0px 0px 4px rgba(255, 249, 110, 0.2); }
+    -webkit-box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2);
+    -moz-box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2);
+    -ms-box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2);
+    box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2); }
+    .grid .container .row .new:hover {
+      background-color: #FFF96E;
+      cursor: pointer;
+      color: #CCCCCC;
+      -webkit-box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7);
+      -moz-box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7);
+      -ms-box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7);
+      box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7); }
+      .grid .container .row .new:hover .icon {
+        background: url(../images/newIcon_.png) 0px 0px no-repeat;
+        background-size: 100%; }
     .grid .container .row .new .icon {
       width: 70px;
       height: 80px;

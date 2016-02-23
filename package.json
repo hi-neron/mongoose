@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard",
     "coverage": "istanbul cover tape -- tests/*-test.js",
-    "test": "NODE_PATH=. npm run lint && tape tests/*-test.js | tap-spec",
+    "test": "npm run lint && tape tests/*-test.js | tap-spec",
     "start": "node bin/www"
   },
   "repository": {
@@ -26,11 +26,13 @@
   "homepage": "https://github.com/hi-neron/mongoose#readme",
   "dependencies": {
     "body-parser": "^1.14.2",
+    "browserify": "^13.0.0",
     "cookie-parser": "^1.4.1",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "formidable": "^1.0.17",
     "fs-extra": "^0.26.5",
+    "jquery": "^2.2.0",
     "mongoose": "^4.3.7",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
@@ -38,8 +40,9 @@
   },
   "devDependencies": {
     "istanbul": "^0.4.2",
+    "supertest": "^1.1.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
-    "supertest": "^1.1.0"
+    "watchify": "^3.7.0"
   }
 }

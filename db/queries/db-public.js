@@ -4,7 +4,7 @@ const Db = require('../db-main.js')
 
 // Retrieve all data or list of items with a parameter
 function all (params, callback) {
-  if (!params) {
+  if (!params || params == '') {
     params = {}
   } else {
     params = {'shortTitle': {'$regex': params, '$options': 'i'}}

@@ -46,30 +46,36 @@ function constructTemplate (params) {
   return template
 }
 
-function imgBehavior (action, images, callback) {
-  images.forEach((image) => {
-    image[action]((err) => {
-      if (err) return callback(errors.byCode('22'))
-    })
+function imgBehavior (action, image, callback) {
+  console.log(image)
+  image[action]((err) => {
+    if (err) return callback(errors.byCode('22'))
+    callback(null)
   })
-  callback(null)
+  // images.forEach((image) => {
+  // })
 }
 
 function createPost (params, callback) {
   publicDb.oneItem({'shortTitle': params.shortTitle}, (err, res) => { // Search item in DB
-    if (err) return callback(errors.byCode('99'), null) // Unknow error
+    if (err) return callback(errors.byCode('99', err.message), null) // Unknow error
     if (res) return callback(errors.byCode('01'), null) // Already item exists in DB
     // Template
     let template = constructTemplate(params)
     let newData = new Db(template)
     newData.save((err) => {
-      if (err) return callback(errors.byCode('99', err.errmsg), null)
+      if (err) return callback(errors.byCode('99', err.message), null)
       console.log(params.shortTitle + ' Saved!')
-      imgBehavior('save', template.images, (err) => {
-        if (err) return callback(err)
-      })
 
-      callback(null, params)
+      template.images.forEach((image) => {
+        imgBehavior('save', image, (err) => {
+          if (err) {
+            return callback(errors.byCode('22'), null)
+          } else {
+            callback(null, params)
+          }
+        })
+      })
     })
   })
 }
@@ -121,7 +127,7 @@ function deletePost (params, callback) {
     if (err) return callback(errors.byCode('99', err.message), null)
 
     if (project) {
-      fs.remove(project.images[0].path, (err) => {
+      fs.remove(project.images[0].src, (err) => {
         if (err) return callback(errors.byCode('11'), null)
         console.log(`${project.shortTitle} image dir was delete`)
       })

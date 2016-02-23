@@ -1,5 +1,5 @@
 'use strict'
-const autor = 'Hi-neron'
+const author = 'Hi-neron'
 const metaString = {type: String, required: true}
 const protoString = {type: String, required: true, unique: true}
 const normalString = {type: String}
@@ -7,7 +7,7 @@ const normalString = {type: String}
 module.exports = {
   shortTitle: protoString,
   released: {type: Boolean, default: false, required: true},
-  author: {type: String, default: autor},
+  author: {type: String, default: author},
   images: [{
     name: normalString,
     src: normalString,

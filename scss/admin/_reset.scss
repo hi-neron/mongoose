@@ -2,6 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+$pink : #FF7676;
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -45,4 +46,26 @@ q:before, q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+input {
+  background-color: transparent;
+  border-radius: 0px;
+  box-shadow: none;
+  border-style: hidden;
+}
+
+input[type=text], input[type=date], input[type=file] {
+  &:focus {
+    outline: transparent;
+    border-bottom: 2px solid $pink !important;
+  }
+}
+
+textarea, button {
+  resize: vertical;
+  &:focus {
+    outline: transparent;
+    border: 2px solid $pink !important;
+  }
 }

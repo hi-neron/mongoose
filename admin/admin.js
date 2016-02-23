@@ -51,8 +51,18 @@ router.route('/:opt?')
       }
 
       dbAdmin.createPost(fields, (err, data) => {
-        if (err) return res.json(err)
-        res.json(data)
+        if (err) {
+          if (err.errCode == '22') {
+            dbAdmin.deletePost(fields.shortTitle, (err, params) => {
+              if (err) return res.json(errors.byCode('99'))
+              res.json(errors.byCode('23', `${params} was deleted, cant created an image`))
+            })
+          } else {
+            res.json(err)
+          }
+        } else {
+          res.json(data)
+        }
       })
     })
   })

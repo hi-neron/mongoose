@@ -1,0 +1,123 @@
+<div class="container" id="edit-form">
+  <form role="form" class="form-horizontal" enctype="multipart/form-data">
+    <div class="row row-centered">
+      <div class="action_text">
+        EDIT MODE
+      </div>
+    </div>
+    <div class="row row-centered">
+      <div class="col-xs-12 col-centered">
+        <div class="camp_post">
+          <div class="camp_title">Identidad</div>
+          <div class="textCamps">
+          </div>
+          <div class="form-group">
+            <label for="shortTitle" class="control-label col-sm-2 form-label necesary">
+            <p>Titulo Corto<span>*</span></p></label>
+            <div class="col-sm-10">
+              <input type="text" name="shortTitle" class="my_input required" id="shortTitle" maxlength="22">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="author" class="control-label col-sm-2 form-label necesary">Autor<span>*</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="author" id="author" class="my_input required" maxlength="50">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="date" class="control-label col-sm-2 form-label necesary">Fecha<span>*</span></label>
+            <div class="col-sm-10">
+              <input type="date" name="date" class="my_input" id="date" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="imagess" class="control-label col-sm-2 form-label necesary">Imagenes<span>*</span></label>
+            <div class="col-sm-10">
+              <input type="file" name="images" class="myImagesInput required inputfile" id="images" data-multiple-caption="{count} files selected" multiple/><label for="images" class="label-images"><span>UPLOAD</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row row-centered">
+      <div class="col-xs-12 col-centered">
+        <div class="camp_post">
+          <div class="camp_title">Contenido - <span>Español</span></div>
+          <div class="form-group">
+            <label for="title" class="control-label col-sm-2 form-label necesary">
+            <p>Titulo<span>*</span></p></label>
+            <div class="col-sm-10">
+              <input type="text" name="title" class="my_input required" id="title" placeholder="" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="entrance" class="control-label col-sm-2 form-label necesary">
+            <p>Entrada<span>*</span></p></label>
+            <div class="col-sm-10">
+              <textarea name="entrance" class="my_input required" id="entrance" placeholder="" maxlength="140"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="content" class="control-label col-sm-2 form-label necesary">
+            <p>Contenido<span>*</span></p></label>
+            <div class="col-sm-10">
+              <textarea name="content" class="my_input required" id="content" placeholder=""></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tags" class="control-label col-sm-2 form-label necesary">
+            <p>Tags</p></label>
+            <div class="col-sm-10">
+              <input type="text" class="my_input" id="tags" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row row-centered">
+      <div class="col-xs-12 col-centered">
+        <div class="camp_post">
+          <div class="camp_title">Contenido - <span>English</span></div>
+          <div class="form-group">
+            <label for="en_title" class="control-label col-sm-2 form-label necesary">
+            <p>Title</p></label>
+            <div class="col-sm-10">
+              <input type="text" class="my_input" id="en_title" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="en_entrance" class="control-label col-sm-2 form-label necesary">
+            <p>Opening</p></label>
+            <div class="col-sm-10">
+              <input type="text" class="my_input" id="en_entrance" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="en_content" class="control-label col-sm-2 form-label necesary">
+            <p>Content</p></label>
+            <div class="col-sm-10">
+              <input type="text" class="my_input" id="en_content" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="en_tags" class="control-label col-sm-2 form-label necesary">
+            <p>Tags</p></label>
+            <div class="col-sm-10">
+              <input type="text" class="my_input" id="en_tags" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row row-centered end-form">
+      <div class="col-xs-12 col-centered">
+        <button class="my_submit" type="submit" value="">
+          <i class="fa fa-book"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

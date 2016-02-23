@@ -1,0 +1,144 @@
+$pink : #FF7676;
+$letterGray : #919191;
+$letterDarkGray : #6F6F6F;
+$campGray : #FAFAFA;
+$bodyColor: #F0F0F0;
+$lineGray: #CCCCCC;
+$yellow: #FFF776;
+$overYellowGray: #B5B5B5;
+
+.action_text {
+  font-family: 'Square';
+  color: #FF7676;
+  font-size: 3em;
+  padding-bottom: 25px;
+}
+
+.form-label {
+  font-family: 'Silk';
+  color: $letterDarkGray;
+  span {
+    color: $pink;
+    display: inline-block;
+  }
+}
+
+.my_submit {
+  display: block;
+  margin: 0 auto;
+  width: 60px;
+  height: 60px;
+  color: $yellow;
+  background: $lineGray;
+  position: relative;
+  border-style: none;
+  font-size: 1.4em;
+  @include radius(3px);
+  &:hover {
+    background-color: $yellow;
+    i {
+      color: $lineGray;
+    }
+  }
+}
+
+.end-form {
+  margin-bottom: 80px;
+}
+
+.camp_post {
+  padding: 25px;
+  background-color: #FAFAFA;
+  border: 3px solid #CCCCCC;
+  width: 100%;
+  font-family: 'Asap';
+  margin-bottom: 50px;
+  position: relative;
+  @include radius(10px);
+
+  .camp_title{
+    position: absolute;
+    top: -10px;
+    font-size: 1.2em;
+    font-family: 'Silk';
+    color: $letterDarkGray;
+    background-color: $campGray;
+    z-index: 0;
+    padding: 0 5px 0 7px;
+
+    &:before {
+      content: "";
+      z-index: -1;
+      margin-left: -7px;
+      top: -3px;
+      position: absolute;
+      width: 100%;
+      height: 10px;
+      background-color: $bodyColor;
+    }
+  }
+
+  textarea[name="content"]{
+    width: 100%;
+    height: 150px;
+    border: 2px solid $lineGray;
+    color: $letterGray;
+    padding: 5px 5px 15px 5px;
+    line-height: 1.3em;
+    max-height: 500px;
+    @include radius(4px);
+  }
+
+  textarea[name="entrance"]{
+    width: 100%;
+    height: 64px;
+    border: 2px solid $lineGray;
+    color: $letterGray;
+    padding: 5px 5px 15px 5px;
+    line-height: 1.3em;
+    resize: none;
+    @include radius(4px);
+  }
+
+  input[type=text] {
+    width: 100%;
+    height: 32px;
+    border-bottom: 2px solid $lineGray;
+    color: $letterGray;
+    padding: 0px 10px 0px 10px;
+  }
+
+  input[name=images] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  label[for=images]{
+    color:  $pink;
+    border: 2px solid $pink;
+    padding: 6px 22px 6px 22px;
+    width: 100%;
+    text-align: center;
+    @include transition(0.1s);
+    @include radius(2px);
+    &:hover {
+      cursor: pointer;
+      background-color: $pink;
+      color: white;
+    }
+  }
+
+  input[type=date] {
+    width: 100%;
+    height: 32px;
+    border-bottom: 2px solid $lineGray;
+    color: $letterGray;
+    padding: 0px 10px 0px 10px;
+    font-family: 'Asap';
+  }
+}
+

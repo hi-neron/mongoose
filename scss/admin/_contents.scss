@@ -1,6 +1,6 @@
 $yellow : #FFF96E;
 $veryLightGray : #CCCCCC;
-$black: #2A2A2A;
+$black: #343434;
 $pink: #FF7676;
 
 @mixin glow ($color, $size) {
@@ -146,7 +146,7 @@ $pink: #FF7676;
 
           .bodyInfo{
             float: left;
-            width: 85%;
+            width: 83%;
             display: inline-block;
             padding-left: 10px;
             .shortTitle{
@@ -162,14 +162,25 @@ $pink: #FF7676;
       }
 
       .new {
-        background-color: $yellow;
+        background-color: $lightGray;
         font-family: 'Silk';
-        color: $veryLightGray;
+        color: $yellow;
         font-size: 1.3em;
         position: relative;
         padding-top: 100px;
-        @include glow(rgba($yellow, $shadowAlpha), $shadowGlow);
+        @include glow(rgba($black, $shadowAlpha), $shadowGlow);
         @extend .card;
+
+        &:hover {
+          background-color: $yellow;
+          cursor: pointer;
+          color: $veryLightGray;
+          @include glow(rgba($yellow, 0.7), 7px);
+          .icon {
+            background: url(../images/newIcon_.png) 0px 0px no-repeat;
+            background-size: 100%;
+          }
+        }
 
         .icon{
           width: 70px;
