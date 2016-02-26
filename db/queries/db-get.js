@@ -4,10 +4,10 @@ const Db = require('../db-main.js')
 
 // Retrieve all data or list of items with a parameter
 function all (params, callback) {
-  if (!params || params == '') {
-    params = {}
+  if (!params.shortTitle || params.shortTitle === '') {
+    delete params.shortTitle
   } else {
-    params = {'shortTitle': {'$regex': params, '$options': 'i'}}
+    params.shortTitle = {'$regex': params.shortTitle, '$options': 'i'}
   }
   Db.find(params, (err, projects) => {
     return callback(err, projects)

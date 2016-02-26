@@ -103,6 +103,31 @@ textarea, button {
 .end-form {
   margin-bottom: 80px; }
 
+.right {
+  float: right; }
+
+.released {
+  display: block;
+  margin: 0 auto;
+  width: 75px;
+  height: 105px;
+  text-align: center;
+  font-size: 3.5em;
+  color: #B5B5B5;
+  background-color: #FFF776;
+  line-height: 0.1em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px; }
+  .released i {
+    margin-top: 13px; }
+  .released span {
+    margin-top: 1px;
+    display: block;
+    font-family: 'Silk';
+    font-size: 0.2em; }
+
 .camp_post {
   padding: 25px;
   background-color: #FAFAFA;
@@ -291,7 +316,7 @@ aside {
   -ms-box-shadow: 0px 0px 5px rgba(255, 249, 110, 0.5);
   box-shadow: 0px 0px 5px rgba(255, 249, 110, 0.5); }
 
-.card, .grid .container .row .project, .grid .container .row .new {
+.card, #app-container .row .project, #app-container .row .new {
   margin: 0px 15px 55px 15px;
   height: 320px;
   -webkit-border-radius: 3pt;
@@ -313,25 +338,25 @@ aside {
 .col-max {
   max-width: 360px; }
 
-.grid {
+#app-container {
   margin: 20px 0px 60px 0px; }
-  .grid .container .row .project {
+  #app-container .row .project {
     background-color: #CCCCCC;
     overflow: hidden;
     -webkit-box-shadow: 0px 0px 4px rgba(128, 128, 128, 0.2);
     -moz-box-shadow: 0px 0px 4px rgba(128, 128, 128, 0.2);
     -ms-box-shadow: 0px 0px 4px rgba(128, 128, 128, 0.2);
     box-shadow: 0px 0px 4px rgba(128, 128, 128, 0.2); }
-    .grid .container .row .project .image {
+    #app-container .row .project .image {
       width: 100%;
       height: 75%;
       padding: 0 0 5px 0;
       overflow: hidden;
       position: relative;
       background-color: #343434; }
-      .grid .container .row .project .image .over {
+      #app-container .row .project .image .over {
         visibility: hidden; }
-        .grid .container .row .project .image .over .actions {
+        #app-container .row .project .image .over .actions {
           position: absolute;
           left: 50%;
           top: 50%;
@@ -342,11 +367,11 @@ aside {
           color: #FFF96E;
           font-size: 2.5em;
           text-align: center; }
-          .grid .container .row .project .image .over .actions .edit {
+          #app-container .row .project .image .over .actions .edit {
             display: none; }
-          .grid .container .row .project .image .over .actions .delete {
+          #app-container .row .project .image .over .actions .delete {
             display: none; }
-      .grid .container .row .project .image:hover .over {
+      #app-container .row .project .image:hover .over {
         visibility: visible;
         position: absolute;
         width: 100%;
@@ -357,22 +382,22 @@ aside {
         -moz-transition: all 0.1s ease-in-out;
         -ms-transition: all 0.1s ease-in-out;
         transition: all 0.1s ease-in-out; }
-        .grid .container .row .project .image:hover .over .actions .edit {
+        #app-container .row .project .image:hover .over .actions .edit {
           cursor: pointer;
           display: inline; }
-        .grid .container .row .project .image:hover .over .actions .delete {
+        #app-container .row .project .image:hover .over .actions .delete {
           cursor: pointer;
           display: inline; }
-      .grid .container .row .project .image img {
+      #app-container .row .project .image img {
         position: absolute;
         width: 150%;
         left: -25%; }
-    .grid .container .row .project .info {
+    #app-container .row .project .info {
       padding: 15px 5px 15px 15px;
       color: #808080;
       height: 90px;
       line-height: 1em; }
-      .grid .container .row .project .info .publicated {
+      #app-container .row .project .info .publicated {
         float: left;
         display: inline-block;
         width: 30px;
@@ -388,20 +413,20 @@ aside {
         -moz-border-radius: 3px;
         -ms-border-radius: 3px;
         border-radius: 3px; }
-        .grid .container .row .project .info .publicated:hover {
+        #app-container .row .project .info .publicated:hover {
           cursor: pointer; }
-      .grid .container .row .project .info .bodyInfo {
+      #app-container .row .project .info .bodyInfo {
         float: left;
         width: 83%;
         display: inline-block;
         padding-left: 10px; }
-        .grid .container .row .project .info .bodyInfo .shortTitle {
+        #app-container .row .project .info .bodyInfo .shortTitle {
           font-family: 'Silk'; }
-        .grid .container .row .project .info .bodyInfo .date {
+        #app-container .row .project .info .bodyInfo .date {
           font-family: 'Asap';
           font-size: 0.7em;
           letter-spacing: 0.2em; }
-  .grid .container .row .new {
+  #app-container .row .new {
     background-color: #9A9A9A;
     font-family: 'Silk';
     color: #FFF96E;
@@ -412,7 +437,7 @@ aside {
     -moz-box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2);
     -ms-box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2);
     box-shadow: 0px 0px 4px rgba(52, 52, 52, 0.2); }
-    .grid .container .row .new:hover {
+    #app-container .row .new:hover {
       background-color: #FFF96E;
       cursor: pointer;
       color: #CCCCCC;
@@ -420,16 +445,16 @@ aside {
       -moz-box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7);
       -ms-box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7);
       box-shadow: 0px 0px 7px rgba(255, 249, 110, 0.7); }
-      .grid .container .row .new:hover .icon {
+      #app-container .row .new:hover .icon {
         background: url(../images/newIcon_.png) 0px 0px no-repeat;
         background-size: 100%; }
-    .grid .container .row .new .icon {
+    #app-container .row .new .icon {
       width: 70px;
       height: 80px;
       background: url(../images/newIcon.png) 0px 0px no-repeat;
       background-size: 100%;
       margin: 0 auto; }
-    .grid .container .row .new .add {
+    #app-container .row .new .add {
       padding-top: 18px;
       padding-left: 12px;
       text-align: center; }

@@ -9837,11 +9837,12 @@ const $ = require('jquery')
 const form = require('./new-data-form')
 const getData = require('./to-obtain-data')
 const imageForm = require('./image-form')
+const render = require('./render-list-projects')
 
 getData({}, (projects) => {
-  console.log(projects)
+  render(projects)
 })
-},{"./image-form":3,"./new-data-form":4,"./to-obtain-data":5,"jquery":1}],3:[function(require,module,exports){
+},{"./image-form":3,"./new-data-form":4,"./render-list-projects":6,"./to-obtain-data":7,"jquery":1}],3:[function(require,module,exports){
 var inputs = document.querySelectorAll( '.inputfile' );
 Array.prototype.forEach.call( inputs, function( input )
 {
@@ -9863,7 +9864,10 @@ Array.prototype.forEach.call( inputs, function( input )
   });
 });
 },{}],4:[function(require,module,exports){
+'use strict'
 const $ = require('jquery')
+const getData = require('../to-obtain-data')
+const render = require('../render-list-projects')
 
 $('#edit-form')
   .find('form')
@@ -9886,20 +9890,108 @@ $('#edit-form')
         success: (data) => {
           // !! need to add one modal window
           console.log(data)
+          getData({}, (projects) => {
+            render(projects)
+          })
         }
       })
+
     }
   });
 
 
 
-},{"jquery":1}],5:[function(require,module,exports){
+},{"../render-list-projects":6,"../to-obtain-data":7,"jquery":1}],5:[function(require,module,exports){
+'use strict'
 const $ = require('jquery')
 
+let $projectsContainer = $('#app-container').find('.projects')
+
+$projectsContainer.on('click', 'div.edit', function (ev) {
+  let $this = $(this)
+  let $project = $this.closest('.project')
+  let shortTitle = $project.data('shortTitle')
+  console.log(shortTitle)
+})
+
+
+module.exports = $projectsContainer
+},{"jquery":1}],6:[function(require,module,exports){
+'use strict'
+
+const $ = require('jquery')
+const $container = require('../projects-container')
+
+var template = `
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-max col-centered item">
+    <div class="project" shortTitle="{{shortTitle}}">
+      <div class="image">
+        <div class="over">
+          <div class="actions">
+            <div class="edit">
+              <i class="fa fa-pencil"></i>
+            </div>
+            <div class="delete">
+              <i class="fa fa-bomb"></i>
+            </div>
+          </div>
+        </div>
+        <img src="/{{images}}" alt="">
+      </div>
+      <div class="info">
+        {{released}}
+        <div class="bodyInfo">
+          <span class="shortTitle">
+            {{shortTitle}} <br>
+          </span>
+          <span class="date">
+            {{date}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>`
+
+var released = `
+<div class="publicated yellow-p">
+  <i class="fa fa-eye"></i>
+</div>`
+
+var noReleased = `
+<div class="publicated pink-p">
+  <i class="fa fa-eye-slash"></i>
+</div>`
+
+
+function renderProjects(projects) {
+  projects.forEach((project) => {
+    var date = new Date(project.date)
+    var releasedTemplate = project.released? released: noReleased
+    var item = template
+    .replace('{{shortTitle}}', project.shortTitle)
+    .replace('{{images}}', project.images[0].url)
+    .replace('{{released}}', releasedTemplate)
+    .replace('{{shortTitle}}', project.shortTitle)
+    .replace('{{date}}', date.toLocaleDateString())
+
+    var $item = $(item)
+    var $project = $item.find('.project')
+    $project.data('shortTitle', project.shortTitle)
+    $container.prepend($item)
+  })
+}
+
+module.exports = renderProjects
+
+},{"../projects-container":5,"jquery":1}],7:[function(require,module,exports){
+const $ = require('jquery')
+const $data = require('../projects-container')
+
 function getProjects (params, callback) {
-  $.ajax('/project', {
+  $.ajax('/projects', {
     data: params,
     success: function (projects, textStatus, xhr) {
+      $data.find('.item').remove()
       callback(projects)
     }
   })
@@ -9908,4 +10000,4 @@ function getProjects (params, callback) {
 module.exports = getProjects
 
 
-},{"jquery":1}]},{},[2]);
+},{"../projects-container":5,"jquery":1}]},{},[2]);

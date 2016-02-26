@@ -46,6 +46,32 @@ $overYellowGray: #B5B5B5;
   margin-bottom: 80px;
 }
 
+.right {
+  float: right;
+}
+
+.released {
+  display: block;
+  margin: 0 auto;
+  width: 75px;
+  height: 105px;
+  text-align: center;
+  font-size: 3.5em;
+  color: $overYellowGray;
+  background-color: $yellow;
+  line-height: 0.1em;
+  @include radius(3px);
+  i {
+    margin-top: 13px;
+  }
+  span {
+    margin-top: 1px;
+    display: block;
+    font-family: 'Silk';
+    font-size: 0.2em;
+  }
+}
+
 .camp_post {
   padding: 25px;
   background-color: #FAFAFA;

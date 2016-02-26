@@ -49,153 +49,152 @@ $pink: #FF7676;
     max-width: 360px;
 }
 
-.grid {
+#app-container {
   margin: 20px 0px 60px 0px;
-  .container {
-    .row {
-      $shadowAlpha : 0.2;
-      $shadowGlow : 4px;
-      .project {
-        background-color: $veryLightGray;
+  .row {
+    $shadowAlpha : 0.2;
+    $shadowGlow : 4px;
+    .project {
+      background-color: $veryLightGray;
+      overflow: hidden;
+      @extend .card;
+      @include glow(rgba($darkGray, $shadowAlpha), $shadowGlow);
+
+      .image {
+        width: 100%;
+        height: 75%;
+        padding: 0 0 5px 0;
         overflow: hidden;
-        @extend .card;
-        @include glow(rgba($darkGray, $shadowAlpha), $shadowGlow);
+        position: relative;
+        background-color: $black;
 
-        .image {
-          width: 100%;
-          height: 75%;
-          padding: 0 0 5px 0;
-          overflow: hidden;
-          position: relative;
-          background-color: $black;
+        .over {
+          visibility: hidden;
+          .actions {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100px;
+            height: 100px;
+            margin-left: -50px;
+            margin-top: -15px;
+            color: $yellow;
+            font-size: 2.5em;
+            text-align: center;
+            .edit {
+              display: none;
+            }
+            .delete {
+              display: none;
+            }
+          }
+        }
 
+        &:hover{
           .over {
-            visibility: hidden;
+            visibility: visible;
             .actions {
-              position: absolute;
-              left: 50%;
-              top: 50%;
-              width: 100px;
-              height: 100px;
-              margin-left: -50px;
-              margin-top: -15px;
-              color: $yellow;
-              font-size: 2.5em;
-              text-align: center;
               .edit {
-                display: none;
+                cursor: pointer;
+                display: inline;
+
               }
               .delete {
-                display: none;
+                cursor: pointer;
+                display: inline;
               }
             }
-          }
-
-          &:hover{
-            .over {
-              visibility: visible;
-              .actions {
-                .edit {
-                  cursor: pointer;
-                  display: inline;
-
-                }
-                .delete {
-                  cursor: pointer;
-                  display: inline;
-                }
-              }
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              background-color: rgba(black, 0.6);
-              z-index: 2;
-              @include transition(0.1s);
-            }
-          }
-
-          img {
             position: absolute;
-            width: 150%;
-            left: -25%;
-          }
-
-        }
-
-        .info {
-          padding: 15px 5px 15px 15px;
-          color: $darkGray;
-          height: 90px;
-          line-height: 1em;
-
-          .publicated{
-            float: left;
-            display: inline-block;
-            width: 30px;
-            height: 35px;
-            text-align: center;
-            line-height: 2em;
-            font-size: 1.1em;
-            @include transition(0.2s);
-            @include radius(3px);
-
-            &:hover {
-              cursor: pointer;
-            }
-          }
-
-          .bodyInfo{
-            float: left;
-            width: 83%;
-            display: inline-block;
-            padding-left: 10px;
-            .shortTitle{
-              font-family: 'Silk';
-            }
-            .date{
-              font-family: 'Asap';
-              font-size: 0.7em;
-              letter-spacing: 0.2em;
-            }
+            width: 100%;
+            height: 100%;
+            background-color: rgba(black, 0.6);
+            z-index: 2;
+            @include transition(0.1s);
           }
         }
+
+        img {
+          position: absolute;
+          width: 150%;
+          left: -25%;
+        }
+
       }
 
-      .new {
-        background-color: $lightGray;
-        font-family: 'Silk';
-        color: $yellow;
-        font-size: 1.3em;
-        position: relative;
-        padding-top: 100px;
-        @include glow(rgba($black, $shadowAlpha), $shadowGlow);
-        @extend .card;
+      .info {
+        padding: 15px 5px 15px 15px;
+        color: $darkGray;
+        height: 90px;
+        line-height: 1em;
 
-        &:hover {
-          background-color: $yellow;
-          cursor: pointer;
-          color: $veryLightGray;
-          @include glow(rgba($yellow, 0.7), 7px);
-          .icon {
-            background: url(../images/newIcon_.png) 0px 0px no-repeat;
-            background-size: 100%;
+        .publicated{
+          float: left;
+          display: inline-block;
+          width: 30px;
+          height: 35px;
+          text-align: center;
+          line-height: 2em;
+          font-size: 1.1em;
+          @include transition(0.2s);
+          @include radius(3px);
+
+          &:hover {
+            cursor: pointer;
           }
         }
 
-        .icon{
-          width: 70px;
-          height: 80px;
-          background: url(../images/newIcon.png) 0px 0px no-repeat;
-          background-size: 100%;
-          margin: 0 auto;
-        }
-
-        .add{
-          padding-top: 18px;
-          padding-left: 12px;
-          text-align: center;
+        .bodyInfo{
+          float: left;
+          width: 83%;
+          display: inline-block;
+          padding-left: 10px;
+          .shortTitle{
+            font-family: 'Silk';
+          }
+          .date{
+            font-family: 'Asap';
+            font-size: 0.7em;
+            letter-spacing: 0.2em;
+          }
         }
       }
     }
+
+    .new {
+      background-color: $lightGray;
+      font-family: 'Silk';
+      color: $yellow;
+      font-size: 1.3em;
+      position: relative;
+      padding-top: 100px;
+      @include glow(rgba($black, $shadowAlpha), $shadowGlow);
+      @extend .card;
+
+      &:hover {
+        background-color: $yellow;
+        cursor: pointer;
+        color: $veryLightGray;
+        @include glow(rgba($yellow, 0.7), 7px);
+        .icon {
+          background: url(../images/newIcon_.png) 0px 0px no-repeat;
+          background-size: 100%;
+        }
+      }
+
+      .icon{
+        width: 70px;
+        height: 80px;
+        background: url(../images/newIcon.png) 0px 0px no-repeat;
+        background-size: 100%;
+        margin: 0 auto;
+      }
+
+      .add{
+        padding-top: 18px;
+        padding-left: 12px;
+        text-align: center;
+      }
+    }
   }
+
 }

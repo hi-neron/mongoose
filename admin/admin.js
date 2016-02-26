@@ -2,7 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const dbAdmin = require('../db/queries/db-admin.js')
-const dbPublic = require('../db/queries/db-public.js')
+const dbGet = require('../db/queries/db-get.js')
 const errors = require('../lib/error.js')
 const _ = require('underscore')
 const Image = require('../lib/image.js')
@@ -27,14 +27,17 @@ router.route('/:opt?')
 
   .get((req, res, next) => {
     const ALIAS = ['Caramelo', 'Cocolin', 'Mi sol', 'Cantinflas']
-    let project = req.params.opt
+    let params = {}
+    params.shortTitle = req.params.opt
+    if (!req.auth){
+      params.released = true
+    }
     let alias = Math.floor(Math.random() * ALIAS.length)
-    dbPublic.all(project, (err, projects) => {
+    dbGet.all(params, (err, projects) => {
       if (err) return res.json(errors.byCode('99'))
       res.render('main', {
         'name': 'Jose Luis',
-        'alias': ALIAS[alias],
-        'projects': projects
+        'alias': ALIAS[alias]
       })
     })
   })

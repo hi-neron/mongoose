@@ -1,7 +1,7 @@
 'use strict'
 
 const Db = require('../db-main.js')
-const publicDb = require('./db-public.js')
+const dbGet = require('./db-get.js')
 const _ = require('underscore')
 const errors = require('../../lib/error.js')
 const fs = require('fs-extra')
@@ -57,7 +57,7 @@ function imgBehavior (action, image, callback) {
 }
 
 function createPost (params, callback) {
-  publicDb.oneItem({'shortTitle': params.shortTitle}, (err, res) => { // Search item in DB
+  dbGet.oneItem({'shortTitle': params.shortTitle}, (err, res) => { // Search item in DB
     if (err) return callback(errors.byCode('99', err.message), null) // Unknow error
     if (res) return callback(errors.byCode('01'), null) // Already item exists in DB
     // Template
@@ -84,7 +84,7 @@ function updatePost (params, callback) {
   let method = params.method
   delete params.method
 
-  publicDb.oneItem({'shortTitle': params.shortTitle}, (err, project) => {
+  dbGet.oneItem({'shortTitle': params.shortTitle}, (err, project) => {
     if (err) return callback(errors.byCode('99', err.message), null)
     if (!project) return callback(errors.byCode('00'), null)
 
@@ -123,7 +123,7 @@ function updatePost (params, callback) {
 }
 
 function deletePost (params, callback) {
-  publicDb.oneItem({'shortTitle': params}, (err, project) => {
+  dbGet.oneItem({'shortTitle': params}, (err, project) => {
     if (err) return callback(errors.byCode('99', err.message), null)
 
     if (project) {

@@ -22,9 +22,16 @@ const projects = require('./routes/public-routes.js')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
+// this lines need be erase
+app.use((req, res, next) => {
+  req.auth = true
+  console.log(`door is open? ${req.auth}`)
+  next()
+})
+
 app.use(cookieParser())
 app.use(bodyParser.json())
-app.use('/project', projects)
+app.use('/projects', projects)
 app.use('/admin', admin)
 app.use(express.static(path.join(__dirname + '/public')))
 

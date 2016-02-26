@@ -1,4 +1,7 @@
+'use strict'
 const $ = require('jquery')
+const getData = require('../to-obtain-data')
+const render = require('../render-list-projects')
 
 $('#edit-form')
   .find('form')
@@ -21,8 +24,12 @@ $('#edit-form')
         success: (data) => {
           // !! need to add one modal window
           console.log(data)
+          getData({}, (projects) => {
+            render(projects)
+          })
         }
       })
+
     }
   });
 
