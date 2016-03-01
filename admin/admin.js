@@ -6,16 +6,38 @@ const dbGet = require('../db/queries/db-get.js')
 const errors = require('../lib/error.js')
 const _ = require('underscore')
 const Image = require('../lib/image.js')
+const S = require('string')
 
 // formidable to parse form-data
 const formidable = require('formidable')
+
+function createImageArray(files, project, cb){
+  let images = []
+  if (files.images.length) {
+    for (let i = 0 ; i < files.images.length; i++){
+      if (files.images[i].name) {
+        images.push(new Image(project, files.images[i]))
+      } else {
+        return cb(errors.byCode('12'), null)
+        break
+      }
+    }
+  } else {
+    if (files.images.name){
+      images.push(new Image(project, files.images))
+    } else {
+      return cb(errors.byCode('12'), null)
+    }
+  }
+  cb(null, images)
+}
 
 // login route
 router.get('/login', (req, res, next) => {
   next()
 })
 
-router.route('/:opt?')
+router.route('/:opt?/:mode?')
   .all((req, res, next) => {
     // Evaluate if it is autorized
     // if not > login
@@ -43,62 +65,100 @@ router.route('/:opt?')
   })
 
   .post((req, res, next) => {
+    let opt = req.params.opt
+    let mode = req.params.mode
     let form = formidable.IncomingForm()
-    form.parse(req, (err, fields, files) => {
-      if (err) return res.json(err)
-      if (_.isEmpty(files)) return res.json(errors.byCode('15'))
+    form.multiples = true
 
-      fields.images = []
-      for (let item in files) {
-        fields.images.push(new Image(fields.shortTitle, files[item]))
-      }
+    switch (opt) {
+      case 'new':
 
-      dbAdmin.createPost(fields, (err, data) => {
-        if (err) {
-          if (err.errCode == '22') {
-            dbAdmin.deletePost(fields.shortTitle, (err, params) => {
-              if (err) return res.json(errors.byCode('99'))
-              res.json(errors.byCode('23', `${params} was deleted, cant created an image`))
+        form.parse(req, (err, fields, files) => {
+          if (err) return res.json(err)
+          if (_.isEmpty(files)) return res.json(errors.byCode('15'))
+          fields.shortTitle = S(fields.shortTitle)
+            .trim()
+            .collapseWhitespace()
+            .strip('/', '.', "'", '"', '%', '¨', '{', '}', '`', '´', '>', '<', '\\', '(', ')', '[',']', '^')
+            // .latinise()
+            .s.toLowerCase();
+
+          createImageArray(files, fields.shortTitle, function (err, data) {
+            if (err) return res.json(err)
+            fields.images = data
+          })
+
+          dbAdmin.createPost(fields, (error, data) => {
+            if (error) {
+              return res.json(error)
+            } else {
+              console.log(data.shortTitle + ' Saved!')
+              res.json(data)
+            }
+          })
+        })
+        break;
+
+      case 'update':
+        form.parse(req, (err, fields, files) => {
+          if (err) return res.json(err)
+          fields.shortTitle = S(fields.shortTitle)
+            .trim()
+            .collapseWhitespace()
+            .s.toLowerCase()
+
+          if (!_.isEmpty(files)) {
+            createImageArray(files, fields.shortTitle, function (err, data) {
+              if (err) {
+                if (err.errorCode = '12'){
+                  fields.images = []
+                } else {
+                  return res.json(err)
+                }
+              }
+              fields.images = data
+            })
+          }
+
+          if (mode === 'add' || mode === 'overwrite') {
+            fields.method = mode
+            dbAdmin.updatePost(fields, (err, data) => {
+              if (err) return res.json(err)
+              res.json(data)
             })
           } else {
-            res.json(err)
+            res.json({'err': 'A method was not specified'})
           }
-        } else {
-          res.json(data)
-        }
-      })
-    })
-  })
-
-  .put((req, res, next) => {
-    let opt = req.params.opt
-    let form = formidable.IncomingForm()
-    // when use put request, add method adds arrays at the end
-    // OVERWRITE overwrite all contents
-
-    form.parse(req, (err, fields, files) => {
-      if (err) return res.json(err)
-      if (files) {
-        fields.images = []
-        for (let item in files) {
-          fields.images.push(new Image(fields.shortTitle, files[item]))
-        }
-      }
-
-      if (opt === 'add' || opt === 'overwrite') {
-        fields.method = opt
-        dbAdmin.updatePost(fields, (err, data) => {
-          if (err) return res.json(err)
-          res.json(data)
         })
-      } else {
-        res.json({'err': 'A method was not specified'})
-      }
-    })
+
+        break;
+
+      case 'released':
+        form.parse(req, (err, fields, files) => {
+          if (err) return res.json(errors.byCode('99', err.message))
+          if (fields.shortTitle || fields.shortTitle !== '') {
+            dbAdmin.changeReleased(fields, (err, data) => {
+              if (err) return res.json(err)
+              res.json(data)
+            })
+          } else {
+            res.json(errors.byCode('14'))
+          }
+        })
+        break;
+
+      default:
+        res.json(errors.byCode('10'))
+    }
   })
 
   .delete((req, res, next) => {
     let path = req.params.opt
+    path = S(path)
+      .trim()
+      .collapseWhitespace()
+      .s.toLowerCase()
+
     dbAdmin.deletePost(path, (err, params) => {
       if (err) return res.json(err)
       res.json({'shortTitle': params, 'deleted': 'ok'})

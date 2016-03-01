@@ -14,16 +14,20 @@ $pink: #FF7676;
   background-color: red;
 }
 
-.pink-p {
-  background-color: $pink;
-  color: #535353;
-  @include glow(rgba($pink, 0.5), 5px);
-}
-
 .yellow-p {
-  background-color: $yellow;
+  background-color: $yellow !important;
   color: #535353;
-  @include glow(rgba($yellow, 0.5), 5px);
+  -webkit-box-shadow: 0px 0px 0.5px $yellow !important;
+   -moz-box-shadow: 0px 0px 0.5px $yellow !important;
+    -ms-box-shadow: 0px 0px 0.5px $yellow !important;
+        box-shadow: 0px 0px 0.5px $yellow !important;
+
+  &:before {
+    content: "\f06e" !important;
+    z-index: 10;
+    font-family: 'FontAwesome';
+    display: block;
+  }
 }
 
 .card {
@@ -135,8 +139,19 @@ $pink: #FF7676;
           text-align: center;
           line-height: 2em;
           font-size: 1.1em;
+          background-color: $pink;
+          color: #535353;
+
           @include transition(0.2s);
           @include radius(3px);
+          @include glow(rgba($pink, 0.5), 5px);
+
+          &:before {
+            content: "\f070";
+            z-index: 10;
+            font-family: 'FontAwesome';
+            display: block;
+          }
 
           &:hover {
             cursor: pointer;

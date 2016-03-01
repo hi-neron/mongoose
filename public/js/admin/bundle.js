@@ -9834,7 +9834,7 @@ return jQuery;
 },{}],2:[function(require,module,exports){
 'use strict'
 const $ = require('jquery')
-const form = require('./new-data-form')
+const form = require('./form-container')
 const getData = require('./to-obtain-data')
 const imageForm = require('./image-form')
 const render = require('./render-list-projects')
@@ -9842,7 +9842,80 @@ const render = require('./render-list-projects')
 getData({}, (projects) => {
   render(projects)
 })
-},{"./image-form":3,"./new-data-form":4,"./render-list-projects":6,"./to-obtain-data":7,"jquery":1}],3:[function(require,module,exports){
+},{"./form-container":4,"./image-form":5,"./render-list-projects":8,"./to-obtain-data":9,"jquery":1}],3:[function(require,module,exports){
+'use strict'
+const $ = require('jquery')
+const getData = require('../to-obtain-data/')
+const render = require('../render-list-projects/')
+
+class Forms {
+  constructor(action) {
+    this.action = action
+  }
+
+  send (action, formData, cb){
+    this.action = action
+    if (this.action === 'new' || this.action === 'update') {
+      if (this.action === 'update'){
+        this.action = `${this.action}/overwrite`
+      }
+
+      $.ajax({
+        url: `/admin/${this.action}`,
+        type: "post",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData:false,
+        success: (data) => {
+          // !! need to add one modal window
+          console.log(data)
+          getData({}, (projects) => {
+            render(projects)
+            cb(null, {resCode: 'success'})
+          })
+        }
+      })
+    } else {
+      cb({
+        'errCode':'11',
+        'errMessage':'Invalid Action',
+      }, null)
+    }
+  }
+}
+
+let myForm = new Forms('new')
+
+module.exports = myForm
+},{"../render-list-projects/":8,"../to-obtain-data/":9,"jquery":1}],4:[function(require,module,exports){
+'use strict'
+const $ = require('jquery')
+const getData = require('../to-obtain-data')
+const render = require('../render-list-projects')
+const f = require('../form-class')
+
+const $form = $('#edit-form').find('form')
+
+$form.submit(function(ev) {
+  ev.preventDefault()
+  if ( $('.required').val().length === 0 ){
+    alert('Hay un campo necesario vacio')
+  } else {
+    var formData = new FormData($(this)[0]);
+    let action = $form.data('action')
+    f.send(action, formData, function (err, res) {
+      if (err) return console.log(err)
+      console.log(res)
+    })
+  }
+});
+
+module.exports = $form
+
+
+
+},{"../form-class":3,"../render-list-projects":8,"../to-obtain-data":9,"jquery":1}],5:[function(require,module,exports){
 var inputs = document.querySelectorAll( '.inputfile' );
 Array.prototype.forEach.call( inputs, function( input )
 {
@@ -9863,60 +9936,111 @@ Array.prototype.forEach.call( inputs, function( input )
       label.innerHTML = labelVal;
   });
 });
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict'
+
 const $ = require('jquery')
-const getData = require('../to-obtain-data')
-const render = require('../render-list-projects')
+let $modal = $('body').find('.modal')
 
-$('#edit-form')
-  .find('form')
-  .submit(function(ev) {
-    ev.preventDefault()
-    if ( $('.required').val().length === 0 ){
-      alert('Hay un campo necesario vacio')
-    } else {
-      var formData = new FormData($(this)[0]);
-      console.log(formData);
 
-      $.ajax({
-        url: "/admin",
-        type: "post",
-        data: formData,
-        async: false,
-        cache: false,
-        contentType: false,
-        processData:false,
-        success: (data) => {
-          // !! need to add one modal window
-          console.log(data)
-          getData({}, (projects) => {
-            render(projects)
-          })
-        }
+$modal.on('click','span.yes', function (ev) {
+  const render = require('../render-list-projects')
+  const getData = require('../to-obtain-data')
+  let $this = $(this)
+  let shortTitle = $modal.find('.dialog-message').text()
+
+  let form = new FormData();
+  form.append('shortTitle', shortTitle);
+
+  $.ajax({
+    'async': true,
+    'url': `/admin/${shortTitle}`,
+    'method': 'DELETE',
+    'processData': false,
+    'contentType': false,
+    'mimeType': 'multipart/form-data',
+    'data': form,
+    success: function(data) {
+      $modal.removeClass('show-this')
+      getData({}, function(projects){
+        render(projects)
       })
-
     }
-  });
+  })
+})
 
+$modal.on('click','span.no', function (ev) {
+  $modal.removeClass('show-this')
+})
 
-
-},{"../render-list-projects":6,"../to-obtain-data":7,"jquery":1}],5:[function(require,module,exports){
+module.exports = $modal
+},{"../render-list-projects":8,"../to-obtain-data":9,"jquery":1}],7:[function(require,module,exports){
 'use strict'
 const $ = require('jquery')
+const $modal = require('../modal-window')
 
-let $projectsContainer = $('#app-container').find('.projects')
+const $projectsContainer = $('#app-container').find('.projects')
+const $newProject = $('#app-container').find('.new')
+
+$newProject.on('click', function(ev) {
+  const $form = require('../form-container')
+  $form.data('action', 'new')
+  console.log($form.data('action'))
+})
 
 $projectsContainer.on('click', 'div.edit', function (ev) {
+  const $form = require('../form-container')
   let $this = $(this)
   let $project = $this.closest('.project')
   let shortTitle = $project.data('shortTitle')
-  console.log(shortTitle)
+  $form.data('action', 'update')
+  $.ajax({
+    'url': `/projects/one/${shortTitle}`,
+    success: function(project, textStatus, xhr){
+      console.log(project)
+    }
+  })
+})
+
+$projectsContainer.on('click', 'div.delete', function (ev) {
+  let $this = $(this)
+  let $project = $this.closest('.project')
+  let shortTitle = $project.data('shortTitle')
+  $modal.addClass('show-this')
+  // are you sure?
+  $modal.find('.dialog-message').text(shortTitle)
+  // delete
+})
+
+
+$projectsContainer.on('click', 'div.publicated', function (ev) {
+  let $this = $(this)
+  let $project = $this.closest('.project')
+  let shortTitle = $project.data('shortTitle')
+  let data = {'shortTitle': shortTitle}
+
+  let form = new FormData();
+  form.append('shortTitle', shortTitle);
+
+  $.ajax({
+    'async': true,
+    'url': '/admin/released',
+    'method': 'POST',
+    'processData': false,
+    'contentType': false,
+    'mimeType': 'multipart/form-data',
+    'data': form,
+    success: (data) => {
+      data = $.parseJSON(data)
+      $this.toggleClass('yellow-p');
+      console.log(data)
+    }
+  })
 })
 
 
 module.exports = $projectsContainer
-},{"jquery":1}],6:[function(require,module,exports){
+},{"../form-container":4,"../modal-window":6,"jquery":1}],8:[function(require,module,exports){
 'use strict'
 
 const $ = require('jquery')
@@ -9936,7 +10060,7 @@ var template = `
             </div>
           </div>
         </div>
-        <img src="/{{images}}" alt="">
+        <img src="/{{images}}" alt="{{imagesAlt}}">
       </div>
       <div class="info">
         {{released}}
@@ -9954,44 +10078,47 @@ var template = `
 
 var released = `
 <div class="publicated yellow-p">
-  <i class="fa fa-eye"></i>
 </div>`
 
 var noReleased = `
-<div class="publicated pink-p">
-  <i class="fa fa-eye-slash"></i>
+<div class="publicated">
 </div>`
 
 
 function renderProjects(projects) {
-  projects.forEach((project) => {
-    var date = new Date(project.date)
-    var releasedTemplate = project.released? released: noReleased
-    var item = template
-    .replace('{{shortTitle}}', project.shortTitle)
-    .replace('{{images}}', project.images[0].url)
-    .replace('{{released}}', releasedTemplate)
-    .replace('{{shortTitle}}', project.shortTitle)
-    .replace('{{date}}', date.toLocaleDateString())
+  if (!projects.errCode){
+    projects.forEach((project) => {
+      var date = new Date(project.date)
+      var releasedTemplate = project.released? released: noReleased
+      var item = template
+      .replace('{{shortTitle}}', project.shortTitle)
+      .replace('{{images}}', project.images[0].url)
+      .replace('{{imagesAlt}}', project.images[0].alt)
+      .replace('{{released}}', releasedTemplate)
+      .replace('{{shortTitle}}', project.shortTitle)
+      .replace('{{date}}', date.toLocaleDateString())
 
-    var $item = $(item)
-    var $project = $item.find('.project')
-    $project.data('shortTitle', project.shortTitle)
-    $container.prepend($item)
-  })
+      var $item = $(item)
+      var $project = $item.find('.project')
+      $project.data('shortTitle', project.shortTitle)
+      $container.prepend($item)
+    })
+  }
 }
 
 module.exports = renderProjects
 
-},{"../projects-container":5,"jquery":1}],7:[function(require,module,exports){
+},{"../projects-container":7,"jquery":1}],9:[function(require,module,exports){
+'use strict'
+
 const $ = require('jquery')
-const $data = require('../projects-container')
+const $container = require('../projects-container')
 
 function getProjects (params, callback) {
   $.ajax('/projects', {
     data: params,
     success: function (projects, textStatus, xhr) {
-      $data.find('.item').remove()
+      $container.find('.item').remove()
       callback(projects)
     }
   })
@@ -10000,4 +10127,4 @@ function getProjects (params, callback) {
 module.exports = getProjects
 
 
-},{"../projects-container":5,"jquery":1}]},{},[2]);
+},{"../projects-container":7,"jquery":1}]},{},[2]);

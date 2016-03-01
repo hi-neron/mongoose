@@ -10,6 +10,7 @@ function arraysPush (method, oldData, newData) {
   let array = []
   if (method === 'add') {
     array = oldData.concat(newData)
+    console.log(array)
   } else {
     array = newData
   }
@@ -47,13 +48,10 @@ function constructTemplate (params) {
 }
 
 function imgBehavior (action, image, callback) {
-  console.log(image)
   image[action]((err) => {
-    if (err) return callback(errors.byCode('22'))
+    if (err) return callback(err)
     callback(null)
   })
-  // images.forEach((image) => {
-  // })
 }
 
 function createPost (params, callback) {
@@ -63,19 +61,28 @@ function createPost (params, callback) {
     // Template
     let template = constructTemplate(params)
     let newData = new Db(template)
+
     newData.save((err) => {
       if (err) return callback(errors.byCode('99', err.message), null)
-      console.log(params.shortTitle + ' Saved!')
 
-      template.images.forEach((image) => {
-        imgBehavior('save', image, (err) => {
+      var error = null
+
+      for (let i = 0 ; i < template.images.length; i++){
+        imgBehavior('save', template.images[i], (err) => {
           if (err) {
-            return callback(errors.byCode('22'), null)
-          } else {
-            callback(null, params)
+            error = err
+          }
+          if (i == template.images.length - 1) {
+            if (error) {
+              deletePost(template.shortTitle, (err, params) => {
+                if (err) error = err
+              })
+            }
+            callback(error, template)
           }
         })
-      })
+      }
+
     })
   })
 }
@@ -83,27 +90,27 @@ function createPost (params, callback) {
 function updatePost (params, callback) {
   let method = params.method
   delete params.method
+  console.log(method)
 
   dbGet.oneItem({'shortTitle': params.shortTitle}, (err, project) => {
     if (err) return callback(errors.byCode('99', err.message), null)
     if (!project) return callback(errors.byCode('00'), null)
 
-    params = constructTemplate(params)
+    let template = constructTemplate(params)
 
-    for (let item in params) {
-      console.log(item)
-      if (typeof params[item] !== 'object') {
-        project[item] = params[item]
+    for (let item in template) {
+      if (typeof template[item] !== 'object') {
+        project[item] = template[item]
       } else {
-        if (Array.isArray(params[item])) {
-          project[item] = arraysPush(method, project[item], params[item])
+        if (Array.isArray(template[item])) {
+          project[item] = arraysPush(method, project[item], template[item])
         } else {
-          for (let sub in params[item]) {
+          for (let sub in template[item]) {
             if (project[item][sub]) {
               if (Array.isArray(project[item][sub])) {
-                project[item][sub] = arraysPush(method, project[item][sub], params[item][sub])
+                project[item][sub] = arraysPush(method, project[item][sub], template[item][sub])
               } else {
-                project[item][sub] = params[item][sub]
+                project[item][sub] = template[item][sub]
               }
             } else {
               return callback(errors.byCode('11'), null)
@@ -112,13 +119,28 @@ function updatePost (params, callback) {
         }
       }
     }
-    // it keep images in public folder
-    imgBehavior('save', params.images, (err) => {
-      if (err) return callback(err)
-    })
 
-    project.save()
-    callback(null, project)
+    let error = null
+    template.images.length
+
+    for (let i = 0 ; i < template.images.length; i++){
+      imgBehavior('save', template.images[i], (err) => {
+        if (err) {
+          error = err
+        }
+        if (i == template.images.length - 1) {
+          if (error) {
+            deletePost(template.shortTitle, (err, params) => {
+              if (err) error = err
+            })
+          }
+          project.save(function(err) {
+            if (err) return callback(errors.byCode('99', err.message), null)
+            callback(error, template)
+          })
+        }
+      })
+    }
   })
 }
 
@@ -127,7 +149,7 @@ function deletePost (params, callback) {
     if (err) return callback(errors.byCode('99', err.message), null)
 
     if (project) {
-      fs.remove(project.images[0].src, (err) => {
+      fs.remove(project.images[0].path, (err) => {
         if (err) return callback(errors.byCode('11'), null)
         console.log(`${project.shortTitle} image dir was delete`)
       })
@@ -142,8 +164,25 @@ function deletePost (params, callback) {
   })
 }
 
+function changeReleased (params, callback){
+  dbGet.oneItem(params, (err, project) => {
+    if (err) return callback(errors.byCode('99', err.message))
+    if (project) {
+      project.released = project.released ? false : true
+      project.save()
+      callback(null, {
+        'shortTitle': project.shortTitle,
+        'newReleasedStatus': project.released
+      })
+    } else {
+      callback(errors.byCode('00'), null)
+    }
+  })
+}
+
 module.exports = {
   createPost: createPost,
   updatePost: updatePost,
-  deletePost: deletePost
+  deletePost: deletePost,
+  changeReleased: changeReleased
 }

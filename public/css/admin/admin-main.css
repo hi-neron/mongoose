@@ -5,6 +5,9 @@
 @font-face {
   font-family: 'Silk';
   src: url("../fonts/slkscre.ttf"); }
+@font-face {
+  font-family: 'SquareO';
+  src: url("../fonts/geoO.ttf"); }
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -300,21 +303,18 @@ aside {
 .colorin {
   background-color: red; }
 
-.pink-p {
-  background-color: #FF7676;
-  color: #535353;
-  -webkit-box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5);
-  -moz-box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5);
-  -ms-box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5);
-  box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5); }
-
 .yellow-p {
-  background-color: #FFF96E;
+  background-color: #FFF96E !important;
   color: #535353;
-  -webkit-box-shadow: 0px 0px 5px rgba(255, 249, 110, 0.5);
-  -moz-box-shadow: 0px 0px 5px rgba(255, 249, 110, 0.5);
-  -ms-box-shadow: 0px 0px 5px rgba(255, 249, 110, 0.5);
-  box-shadow: 0px 0px 5px rgba(255, 249, 110, 0.5); }
+  -webkit-box-shadow: 0px 0px 0.5px #FFF96E !important;
+  -moz-box-shadow: 0px 0px 0.5px #FFF96E !important;
+  -ms-box-shadow: 0px 0px 0.5px #FFF96E !important;
+  box-shadow: 0px 0px 0.5px #FFF96E !important; }
+  .yellow-p:before {
+    content: "\f06e" !important;
+    z-index: 10;
+    font-family: 'FontAwesome';
+    display: block; }
 
 .card, #app-container .row .project, #app-container .row .new {
   margin: 0px 15px 55px 15px;
@@ -405,6 +405,8 @@ aside {
         text-align: center;
         line-height: 2em;
         font-size: 1.1em;
+        background-color: #FF7676;
+        color: #535353;
         -webkit-transition: all 0.2s ease-in-out;
         -moz-transition: all 0.2s ease-in-out;
         -ms-transition: all 0.2s ease-in-out;
@@ -412,7 +414,16 @@ aside {
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
         -ms-border-radius: 3px;
-        border-radius: 3px; }
+        border-radius: 3px;
+        -webkit-box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5);
+        -moz-box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5);
+        -ms-box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5);
+        box-shadow: 0px 0px 5px rgba(255, 118, 118, 0.5); }
+        #app-container .row .project .info .publicated:before {
+          content: "\f070";
+          z-index: 10;
+          font-family: 'FontAwesome';
+          display: block; }
         #app-container .row .project .info .publicated:hover {
           cursor: pointer; }
       #app-container .row .project .info .bodyInfo {
@@ -474,6 +485,103 @@ footer {
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     border-radius: 4px; }
+
+.show-this {
+  height: 100% !important; }
+
+.modal {
+  overflow: hidden;
+  height: 0px;
+  position: fixed;
+  width: 100%;
+  background-color: rgba(255, 247, 118, 0.95);
+  z-index: 10;
+  display: block;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
+  .modal .small-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20%;
+    height: 20%;
+    min-height: 230px;
+    min-width: 360px;
+    max-width: 300px;
+    color: #262626;
+    -webkit-transform: translate(-50%, -70%);
+    -moz-transform: translate(-50%, -70%);
+    -ms-transform: translate(-50%, -70%);
+    -o-transform: translate(-50%, -70%);
+    transform: translate(-50%, -70%);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px; }
+    .modal .small-container .messages {
+      text-align: center;
+      position: relative; }
+      .modal .small-container .messages .iconContainer {
+        width: 100%;
+        height: 95px;
+        padding-top: 35px; }
+        .modal .small-container .messages .iconContainer .icon {
+          margin: 0 auto;
+          background: url(../images/delete.png) 0px 0px no-repeat;
+          background-size: 100%;
+          font-size: 2em;
+          width: 30px;
+          height: 30px; }
+      .modal .small-container .messages .dialog-intro {
+        width: 100%;
+        font-family: 'Square';
+        padding: 0px 0px 10px 0px;
+        font-size: 1.5em; }
+      .modal .small-container .messages .dialog-message {
+        color: #6C2FB2;
+        text-transform: uppercase;
+        width: 100%;
+        font-family: 'SquareO';
+        padding: 0px 0px 10px 0px;
+        font-size: 1.3em; }
+        .modal .small-container .messages .dialog-message:before {
+          font-family: 'fontAwesome';
+          color: #6C2FB2;
+          content: '\f105';
+          padding: 0 15px;
+          font-size: 0.8em; }
+        .modal .small-container .messages .dialog-message:after {
+          font-family: 'fontAwesome';
+          color: #6C2FB2;
+          font-size: 0.8em;
+          content: '\f104';
+          padding: 0 15px; }
+      .modal .small-container .messages .dialog-question {
+        width: 100%;
+        font-family: 'Square';
+        padding: 0px 0px 25px 0px;
+        font-size: 1.5em; }
+      .modal .small-container .messages .choices {
+        width: 100%;
+        font-family: 'FontAwesome'; }
+        .modal .small-container .messages .choices .yes, .modal .small-container .messages .choices .no {
+          display: inline-block;
+          border: 2px solid #262626;
+          padding: 8px 0px 0px 0px;
+          width: 37px;
+          height: 37px; }
+          .modal .small-container .messages .choices .yes:hover, .modal .small-container .messages .choices .no:hover {
+            cursor: pointer;
+            color: #FFF776;
+            background-color: #262626; }
+        .modal .small-container .messages .choices .yes:after {
+          content: '\f00c'; }
+        .modal .small-container .messages .choices .no {
+          margin-left: 20px; }
+          .modal .small-container .messages .choices .no:after {
+            content: '\f00d'; }
 
 body {
   background-color: #F0F0F0; }

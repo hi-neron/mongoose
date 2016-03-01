@@ -1,11 +1,13 @@
+'use strict'
+
 const $ = require('jquery')
-const $data = require('../projects-container')
+const $container = require('../projects-container')
 
 function getProjects (params, callback) {
   $.ajax('/projects', {
     data: params,
     success: function (projects, textStatus, xhr) {
-      $data.find('.item').remove()
+      $container.find('.item').remove()
       callback(projects)
     }
   })

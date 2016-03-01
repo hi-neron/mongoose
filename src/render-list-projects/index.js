@@ -17,7 +17,7 @@ var template = `
             </div>
           </div>
         </div>
-        <img src="/{{images}}" alt="">
+        <img src="/{{images}}" alt="{{imagesAlt}}">
       </div>
       <div class="info">
         {{released}}
@@ -35,31 +35,32 @@ var template = `
 
 var released = `
 <div class="publicated yellow-p">
-  <i class="fa fa-eye"></i>
 </div>`
 
 var noReleased = `
-<div class="publicated pink-p">
-  <i class="fa fa-eye-slash"></i>
+<div class="publicated">
 </div>`
 
 
 function renderProjects(projects) {
-  projects.forEach((project) => {
-    var date = new Date(project.date)
-    var releasedTemplate = project.released? released: noReleased
-    var item = template
-    .replace('{{shortTitle}}', project.shortTitle)
-    .replace('{{images}}', project.images[0].url)
-    .replace('{{released}}', releasedTemplate)
-    .replace('{{shortTitle}}', project.shortTitle)
-    .replace('{{date}}', date.toLocaleDateString())
+  if (!projects.errCode){
+    projects.forEach((project) => {
+      var date = new Date(project.date)
+      var releasedTemplate = project.released? released: noReleased
+      var item = template
+      .replace('{{shortTitle}}', project.shortTitle)
+      .replace('{{images}}', project.images[0].url)
+      .replace('{{imagesAlt}}', project.images[0].alt)
+      .replace('{{released}}', releasedTemplate)
+      .replace('{{shortTitle}}', project.shortTitle)
+      .replace('{{date}}', date.toLocaleDateString())
 
-    var $item = $(item)
-    var $project = $item.find('.project')
-    $project.data('shortTitle', project.shortTitle)
-    $container.prepend($item)
-  })
+      var $item = $(item)
+      var $project = $item.find('.project')
+      $project.data('shortTitle', project.shortTitle)
+      $container.prepend($item)
+    })
+  }
 }
 
 module.exports = renderProjects

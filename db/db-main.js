@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const postTemplate = require('./schemas/posts.js')
 const Schema = mongoose.Schema
 
-mongoose.connect('mongodb://localhost/hiNeron')
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/hiNeron')
 
 // schemas for models
 const PostSchema = new Schema(postTemplate)

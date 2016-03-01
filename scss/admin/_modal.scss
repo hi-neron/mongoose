@@ -1,0 +1,136 @@
+$modalBlack: #262626;
+$modalYellow: #FFF776;
+
+@mixin middle($x, $y){
+  -webkit-transform: translate($x, $y);
+  -moz-transform:    translate($x, $y);
+  -ms-transform:     translate($x, $y);
+  -o-transform:      translate($x, $y);
+  transform:         translate($x, $y);
+}
+
+.show-this{
+  height: 100% !important;
+}
+
+.modal {
+  overflow: hidden;
+  height: 0px;
+  position: fixed;
+  width: 100%;
+  background-color: rgba($modalYellow, 0.95);
+  z-index: 10;
+  display: block;
+  @include transition(0.5s);
+
+  .small-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    // background-color: $modalYellow;
+    width: 20%;
+    height: 20%;
+    min-height: 230px;
+    min-width: 360px;
+    max-width: 300px;
+    color: $modalBlack;
+    // border: 3px solid #FFFF8D;
+    // box-shadow: 0 6px 0 rgba(#000, 0.2);
+
+    @include middle(-50%, -70%);
+    @include radius(2px);
+
+    .messages {
+      text-align: center;
+      position: relative;
+
+      .iconContainer {
+        width: 100%;
+        height: 95px;
+        padding-top: 35px;
+
+        .icon {
+          margin: 0 auto;
+          background: url(../images/delete.png) 0px 0px no-repeat;
+          background-size: 100%;
+          font-size: 2em;
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .dialog-intro{
+        width: 100%;
+        font-family: 'Square';
+        padding: 0px 0px 10px 0px;
+        font-size: 1.5em;
+      }
+
+      .dialog-message{
+        $color: #6C2FB2;
+        $fz: 0.8em;
+        $padding: 0 15px;
+
+        color: $color;
+        text-transform: uppercase;
+        width: 100%;
+        font-family: 'SquareO';
+        padding: 0px 0px 10px 0px;
+        font-size: 1.3em;
+
+        &:before {
+          font-family: 'fontAwesome';
+          color: $color;
+          content: '\f105';
+          padding: $padding;
+          font-size: $fz;
+        }
+
+        &:after {
+          font-family: 'fontAwesome';
+          color: $color;
+          font-size: $fz;
+          content: '\f104';
+          padding: $padding;
+        }
+      }
+
+      .dialog-question{
+        width: 100%;
+        font-family: 'Square';
+        padding: 0px 0px 25px 0px;
+        font-size: 1.5em;
+      }
+
+      .choices {
+        width: 100%;
+        font-family: 'FontAwesome';
+
+        .yes, .no {
+          display: inline-block;
+          border: 2px solid $modalBlack;
+          padding: 8px 0px 0px 0px;
+          width: 37px;
+          height: 37px;
+          &:hover {
+            cursor: pointer;
+            color: $modalYellow;
+            background-color: $modalBlack;
+          }
+        }
+
+        .yes {
+          &:after{
+            content: '\f00c';
+          }
+        }
+        .no {
+          margin-left: 20px;
+          &:after{
+            content: '\f00d';
+          }
+        }
+      }
+    }
+  }
+}

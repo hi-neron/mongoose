@@ -12,7 +12,8 @@ module.exports = {
     name: normalString,
     src: normalString,
     path: normalString,
-    url: normalString
+    url: normalString,
+    alt: normalString
   }],
   date: {type: Date, default: Date.now, required: true},
   social: [{
